@@ -26,7 +26,7 @@ Estado: análisis inicial realizado sobre [components/dashboard.tsx](../componen
 - [x] Instalar/configurar el proveedor de cobertura de Vitest y generar un informe reproducible.
 - [x] Limitar la cobertura al código de aplicación (`app/` y `components/`), excluyendo configuración de build y tooling.
 - [x] Activar `all: true` para detectar archivos de aplicación sin tests.
-- [x] Definir umbrales del 100% para líneas, funciones, statements y branches del código de aplicación.
+- [x] Definir umbrales del 100% para líneas, funciones y statements, y del 95% para branches del código de aplicación.
 - [x] Añadir cobertura para la página principal y el layout raíz.
 - [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
 - [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.

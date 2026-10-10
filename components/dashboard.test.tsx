@@ -161,4 +161,16 @@ describe("Dashboard", () => {
     await waitFor(() => expect(document.documentElement).toHaveClass("dark"));
     expect(screen.getByRole("button", { name: "Activar modo claro" })).toBeInTheDocument();
   });
+
+  it("restores the light theme when it is explicitly saved", async () => {
+    // Arrange
+    localStorage.setItem("life-dashboard.theme", "light");
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(document.documentElement).not.toHaveClass("dark"));
+    expect(screen.getByRole("button", { name: "Activar modo oscuro" })).toBeInTheDocument();
+  });
 });
