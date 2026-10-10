@@ -117,4 +117,48 @@ describe("Dashboard", () => {
     expect(screen.getByText("Inbox limpia")).toBeInTheDocument();
     expect(screen.queryByText("3 correos esperan.")).not.toBeInTheDocument();
   });
+
+  it("exposes accessible names, states, links, and keyboard focus", () => {
+    // Arrange
+    render(<Dashboard />);
+    const searchButton = screen.getByRole("button", { name: "Buscar" });
+    const firstTask = screen.getByRole("button", { name: /Revisar propuesta de producto/i });
+
+    // Act
+    searchButton.focus();
+
+    // Assert
+    expect(searchButton).toHaveFocus();
+    expect(screen.getByRole("button", { name: "Más opciones de agenda" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Añadir atajo" })).toBeInTheDocument();
+    expect(firstTask).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("link", { name: "Ver calendario" })).toHaveAttribute("href", "#calendar");
+    expect(screen.getByRole("link", { name: "Abrir Gmail" })).toHaveAttribute("href", "#gmail");
+  });
+
+  it("toggles and persists the selected theme", async () => {
+    // Arrange
+    render(<Dashboard />);
+    const toggle = screen.getByRole("button", { name: "Activar modo oscuro" });
+
+    // Act
+    fireEvent.click(toggle);
+
+    // Assert
+    await waitFor(() => expect(document.documentElement).toHaveClass("dark"));
+    expect(localStorage.getItem("life-dashboard.theme")).toBe("dark");
+    expect(screen.getByRole("button", { name: "Activar modo claro" })).toBeInTheDocument();
+  });
+
+  it("restores a previously selected theme", async () => {
+    // Arrange
+    localStorage.setItem("life-dashboard.theme", "dark");
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(document.documentElement).toHaveClass("dark"));
+    expect(screen.getByRole("button", { name: "Activar modo claro" })).toBeInTheDocument();
+  });
 });

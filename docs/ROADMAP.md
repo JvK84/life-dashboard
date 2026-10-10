@@ -11,7 +11,7 @@ Estado general del proyecto y próximos hitos.
 - [x] Añadir interacción inicial para tareas e inbox.
 - [x] Añadir tests unitarios de los flujos principales.
 - [x] Modificar los tests unitarios siguiendo el patrón AAA (Arrange–Act–Assert).
-- [ ] Medir la cobertura real y exigir el umbral acordado en CI.
+- [x] Medir la cobertura real y exigir el umbral acordado en CI.
 - [x] Configurar workflow de calidad para Pull Requests hacia `main`.
 - [x] Crear instrucciones para Codex y documentación de arquitectura, referencias y roadmap.
 
@@ -30,9 +30,9 @@ Estado: análisis inicial realizado sobre [components/dashboard.tsx](../componen
 - [x] Añadir cobertura para la página principal y el layout raíz.
 - [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
 - [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.
-- [ ] Ejecutar una PR real y confirmar que la quality gate queda en verde.
-- [ ] Añadir tests de accesibilidad y de interacción para los controles que actualmente solo tienen representación visual.
-- [ ] Verificar localmente tests, cobertura, lint y build cuando el entorno de Node esté operativo.
+- [x] Ejecutar una PR real y confirmar que la quality gate queda en verde.
+- [x] Añadir tests de accesibilidad y de interacción para los controles que actualmente tenían solo representación visual.
+- [x] Verificar localmente tests, cobertura, lint y build.
 
 #### Code smells y mantenibilidad
 
@@ -62,7 +62,9 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Extraer primitives reutilizables a `src/components/ui`.
 - [x] Separar cada widget en `src/components/widgets`.
 - [x] Añadir persistencia de tareas en LocalStorage con recuperación segura ante datos inválidos.
-- [ ] Añadir alternancia de tema oscuro/claro.
+- [x] Añadir alternancia de tema oscuro/claro con persistencia de la preferencia.
+- [x] Corregir el contraste de la ubicación y del widget de energía en ambos temas.
+- [x] Aclarar el fondo oscuro general y el fondo de la agenda para mejorar la separación visual.
 
 ## 🔵 Futuro / Backlog
 
