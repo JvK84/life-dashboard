@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Dashboard } from "./dashboard";
 
@@ -34,6 +34,49 @@ describe("Dashboard", () => {
 
     // Assert
     expect(screen.getByText("2 de 4 completadas.")).toBeInTheDocument();
+  });
+
+  it("keeps consecutive task additions", () => {
+    // Arrange
+    render(<Dashboard />);
+    const input = screen.getByLabelText("Nueva tarea");
+
+    // Act
+    fireEvent.change(input, { target: { value: "Primera tarea" } });
+    fireEvent.submit(input);
+    fireEvent.change(input, { target: { value: "Segunda tarea" } });
+    fireEvent.submit(input);
+
+    // Assert
+    expect(screen.getByText("Primera tarea")).toBeInTheDocument();
+    expect(screen.getByText("Segunda tarea")).toBeInTheDocument();
+    expect(screen.getByText("1 de 5 completadas.")).toBeInTheDocument();
+  });
+
+  it("restores tasks from local storage", async () => {
+    // Arrange
+    localStorage.setItem(
+      "life-dashboard.tasks",
+      JSON.stringify([{ id: "saved-1", label: "Tarea guardada", done: true, tag: "Trabajo" }]),
+    );
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByText("Tarea guardada")).toBeInTheDocument());
+    expect(screen.getByText("1 de 1 completadas.")).toBeInTheDocument();
+  });
+
+  it("falls back to initial tasks when local storage is invalid", async () => {
+    // Arrange
+    localStorage.setItem("life-dashboard.tasks", "{invalid json");
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByText("1 de 3 completadas.")).toBeInTheDocument());
   });
 
   it("ignores empty tasks", () => {
