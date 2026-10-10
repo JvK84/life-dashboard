@@ -17,4 +17,9 @@ body {
 
 button, input { font: inherit; }
 
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 3px solid #111113;
+  outline-offset: 3px;
+}
+
 ::selection { background: #d7f36b; color: #111113; }

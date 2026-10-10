@@ -10,11 +10,47 @@ Estado general del proyecto y próximos hitos.
 - [x] Crear el dashboard visual con Bento Grid y datos mock.
 - [x] Añadir interacción inicial para tareas e inbox.
 - [x] Añadir tests unitarios de los flujos principales.
-- [ ] Modificar los tests unitarios siguiendo el patrón AAA (Arrange–Act–Assert) y asegurar cobertura completa.
+- [x] Modificar los tests unitarios siguiendo el patrón AAA (Arrange–Act–Assert).
+- [ ] Medir la cobertura real y exigir el umbral acordado en CI.
 - [x] Configurar workflow de calidad para Pull Requests hacia `main`.
 - [x] Crear instrucciones para Codex y documentación de arquitectura, referencias y roadmap.
 
 ## 🟡 En progreso
+
+### Análisis técnico — 10 de octubre de 2026
+
+Estado: análisis inicial realizado sobre [components/dashboard.tsx](../components/dashboard.tsx), [components/dashboard.test.tsx](../components/dashboard.test.tsx), [package.json](../package.json), [vitest.config.ts](../vitest.config.ts) y [.github/workflows/quality.yml](../.github/workflows/quality.yml).
+
+#### Cobertura y calidad de tests
+
+- [x] Instalar/configurar el proveedor de cobertura de Vitest y generar un informe reproducible.
+- [x] Limitar la cobertura al código de aplicación (`app/` y `components/`), excluyendo configuración de build y tooling.
+- [x] Activar `all: true` para detectar archivos de aplicación sin tests.
+- [x] Definir umbrales del 100% para líneas, funciones, statements y branches del código de aplicación.
+- [x] Añadir cobertura para la página principal y el layout raíz.
+- [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
+- [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.
+- [ ] Ejecutar una PR real y confirmar que la quality gate queda en verde.
+- [ ] Añadir tests de accesibilidad y de interacción para los controles que actualmente solo tienen representación visual.
+- [ ] Verificar localmente tests, cobertura, lint y build cuando el entorno de Node esté operativo.
+
+#### Code smells y mantenibilidad
+
+- [x] Extraer `Dashboard` en widgets independientes: agenda, energía, inbox, tareas y atajos; `Dashboard` conserva composición y estado compartido.
+- [x] Mover datos mock, tipos y constantes de presentación fuera del componente para reducir ruido y facilitar tests aislados.
+- [x] Sustituir actualizaciones de estado basadas en cierres potencialmente obsoletos por actualizaciones funcionales.
+- [x] Sustituir `Date.now()` como identificador de tarea por un generador de IDs estable y testeable.
+- [x] Evitar valores temporales y de ubicación hardcodeados en la vista mediante una fuente de datos mock centralizada.
+- [x] Revisar el uso de `useMemo`; se eliminó porque el contador es una derivación pequeña y directa del estado.
+- [x] Proteger el cálculo del porcentaje ante una colección de tareas vacía.
+
+#### Funcionalidad y accesibilidad pendiente
+
+- [ ] Implementar o retirar las acciones visuales sin comportamiento: búsqueda, más opciones de agenda, ver calendario, abrir Gmail y añadir atajo.
+- [x] Añadir estados de foco visibles y nombres accesibles consistentes a todas las acciones existentes.
+- [x] Añadir una prueba de regresión para evitar que una tarea recién creada pierda cambios cuando se produzcan interacciones consecutivas.
+
+Prioridad recomendada: primero cobertura ejecutable en CI y actualización funcional del estado; después extracción de widgets y separación de datos; finalmente integraciones y mejoras visuales.
 
 ### Hito 1 — Layout base con Bento Grid y componentes mock
 
@@ -24,8 +60,8 @@ Estado general del proyecto y próximos hitos.
 - [x] Widget de tareas con alta y completado local.
 - [x] Panel de accesos rápidos.
 - [ ] Extraer primitives reutilizables a `src/components/ui`.
-- [ ] Separar cada widget en `src/components/widgets`.
-- [ ] Añadir persistencia de tareas y preferencias en LocalStorage.
+- [x] Separar cada widget en `src/components/widgets`.
+- [x] Añadir persistencia de tareas en LocalStorage con recuperación segura ante datos inválidos.
 - [ ] Añadir alternancia de tema oscuro/claro.
 
 ## 🔵 Futuro / Backlog
