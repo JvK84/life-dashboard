@@ -10,6 +10,7 @@ Estado general del proyecto y próximos hitos.
 - [x] Crear el dashboard visual con Bento Grid y datos mock.
 - [x] Añadir interacción inicial para tareas e inbox.
 - [x] Añadir tests unitarios de los flujos principales.
+- [ ] Modificar los tests unitarios siguiendo el patrón AAA (Arrange–Act–Assert) y asegurar cobertura completa.
 - [x] Configurar workflow de calidad para Pull Requests hacia `main`.
 - [x] Crear instrucciones para Codex y documentación de arquitectura, referencias y roadmap.
 
