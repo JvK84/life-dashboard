@@ -12,3 +12,5 @@ export type GoogleCalendarToken = {
   refreshToken?: string;
   expiresAt: number;
 };
+
+export type CalendarRange = "day" | "week" | "month";

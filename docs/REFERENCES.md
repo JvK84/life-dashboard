@@ -7,6 +7,7 @@
 - Documentación: <https://developers.google.com/calendar/api>
 - Uso previsto: leer eventos próximos, agenda diaria y duración de reuniones.
 - Requiere OAuth 2.0 y consentimiento del usuario.
+- Para combinar varios calendarios se usan los scopes de solo lectura `calendar.events.readonly` y `calendar.calendarlist.readonly`.
 - El acceso debe pasar por un servicio de servidor; no exponer secretos ni refresh tokens en el navegador.
 
 ### Gmail API

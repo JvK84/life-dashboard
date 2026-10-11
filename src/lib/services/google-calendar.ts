@@ -1,9 +1,14 @@
 import type { GoogleCalendarEvent, GoogleCalendarToken } from "@/src/types/google-calendar";
+import type { CalendarRangeWindow } from "@/src/lib/utils/calendar-range";
 
-export const GOOGLE_CALENDAR_SCOPE = "https://www.googleapis.com/auth/calendar.events.readonly";
+export const GOOGLE_CALENDAR_SCOPES = [
+  "https://www.googleapis.com/auth/calendar.events.readonly",
+  "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+];
 const GOOGLE_AUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 const GOOGLE_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
-const GOOGLE_EVENTS_ENDPOINT = "https://www.googleapis.com/calendar/v3/calendars/primary/events";
+const GOOGLE_CALENDAR_LIST_ENDPOINT = "https://www.googleapis.com/calendar/v3/users/me/calendarList";
+const GOOGLE_EVENTS_ENDPOINT = "https://www.googleapis.com/calendar/v3/calendars";
 
 type GoogleOAuthConfig = {
   clientId: string;
@@ -29,6 +34,25 @@ type GoogleEventResponse = {
   }>;
 };
 
+export type GoogleCalendarReference = {
+  id: string;
+  summary: string;
+  primary?: boolean;
+  hidden?: boolean;
+  deleted?: boolean;
+};
+
+type GoogleCalendarListResponse = {
+  items?: Array<{
+    id?: string;
+    summary?: string;
+    summaryOverride?: string;
+    primary?: boolean;
+    hidden?: boolean;
+    deleted?: boolean;
+  }>;
+};
+
 export class GoogleConfigurationError extends Error {
   constructor() {
     super("Google OAuth is not configured");
@@ -51,7 +75,7 @@ export function createGoogleAuthorizationUrl(state: string, config = getGoogleOA
   url.searchParams.set("client_id", config.clientId);
   url.searchParams.set("redirect_uri", config.redirectUri);
   url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", GOOGLE_CALENDAR_SCOPE);
+  url.searchParams.set("scope", GOOGLE_CALENDAR_SCOPES.join(" "));
   url.searchParams.set("access_type", "offline");
   url.searchParams.set("prompt", "consent");
   url.searchParams.set("state", state);
@@ -124,10 +148,56 @@ export async function refreshGoogleToken(
 
 export async function listUpcomingGoogleEvents(
   token: GoogleCalendarToken,
-  options: { timeMin?: string; timeMax?: string; maxResults?: number } = {},
+  options: Partial<CalendarRangeWindow> & { maxResults?: number; calendarIds?: string[] } = {},
   fetchImpl: typeof fetch = fetch,
 ): Promise<GoogleCalendarEvent[]> {
-  const url = new URL(GOOGLE_EVENTS_ENDPOINT);
+  const calendars = options.calendarIds ?? (await listGoogleCalendars(token, fetchImpl)).map((calendar) => calendar.id);
+  if (calendars.length === 0) return [];
+
+  const events = await Promise.all(
+    calendars.map((calendarId) => listCalendarEvents(token, calendarId, options, fetchImpl)),
+  );
+
+  return events
+    .flat()
+    .sort((left, right) => left.start.localeCompare(right.start))
+    .slice(0, options.maxResults ?? 10);
+}
+
+export async function listGoogleCalendars(
+  token: GoogleCalendarToken,
+  fetchImpl: typeof fetch = fetch,
+): Promise<GoogleCalendarReference[]> {
+  const response = await fetchImpl(GOOGLE_CALENDAR_LIST_ENDPOINT, {
+    headers: { Authorization: `Bearer ${token.accessToken}` },
+  });
+  if (!response.ok) throw new Error(`Google Calendar list request failed with ${response.status}`);
+
+  const data = (await response.json()) as GoogleCalendarListResponse;
+  return (data.items ?? [])
+    .filter((calendar): calendar is Required<Pick<typeof calendar, "id">> & typeof calendar => Boolean(calendar.id))
+    .filter((calendar) => !calendar.hidden && !calendar.deleted && !isBirthdayCalendar(calendar))
+    .map((calendar) => ({
+      id: calendar.id,
+      summary: calendar.summaryOverride ?? calendar.summary ?? calendar.id,
+      ...(calendar.primary ? { primary: true } : {}),
+      ...(calendar.hidden ? { hidden: true } : {}),
+      ...(calendar.deleted ? { deleted: true } : {}),
+    }));
+}
+
+export function isBirthdayCalendar(calendar: { id: string; summary?: string }): boolean {
+  const calendarText = `${calendar.id} ${calendar.summary ?? ""}`.toLocaleLowerCase();
+  return calendarText.includes("birthday") || calendarText.includes("cumpleaños") || calendarText.includes("contacts#");
+}
+
+async function listCalendarEvents(
+  token: GoogleCalendarToken,
+  calendarId: string,
+  options: { timeMin?: string; timeMax?: string; maxResults?: number },
+  fetchImpl: typeof fetch,
+): Promise<GoogleCalendarEvent[]> {
+  const url = new URL(`${GOOGLE_EVENTS_ENDPOINT}/${encodeURIComponent(calendarId)}/events`);
   url.searchParams.set("singleEvents", "true");
   url.searchParams.set("orderBy", "startTime");
   url.searchParams.set("showDeleted", "false");

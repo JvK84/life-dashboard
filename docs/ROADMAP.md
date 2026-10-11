@@ -82,6 +82,9 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [x] Crear rama de trabajo y entregar una primera PR de integración de Google Calendar.
 - [x] Integración con Google Calendar API en modo lectura: OAuth, conexión y endpoint de próximos eventos.
 - [x] Normalizar eventos de Google Calendar al modelo interno consumible por la agenda.
+- [x] Combinar calendarios disponibles y excluir el calendario de cumpleaños para evitar eventos repetidos por año.
+- [x] Permitir consultar la agenda por día, semana o mes desde el panel.
+- [x] Mostrar estado vacío, ocultar la conexión tras autorizar y actualizar/anclar el próximo evento en la agenda.
 - [x] Añadir pruebas unitarias con patrón AAA para autorización, tokens, cifrado y normalización.
 - [x] Mantener la validación de performance de la PR mediante Lighthouse CI y el informe como artefacto.
 - [ ] Persistir tokens en un almacén server-side asociado a la identidad del usuario cuando se incorpore Supabase/Auth.

@@ -3,6 +3,9 @@ import {
   createGoogleAuthorizationUrl,
   exchangeGoogleCode,
   getGoogleOAuthConfig,
+  GOOGLE_CALENDAR_SCOPES,
+  isBirthdayCalendar,
+  listGoogleCalendars,
   listUpcomingGoogleEvents,
   normalizeGoogleEvent,
   refreshGoogleToken,
@@ -28,6 +31,7 @@ describe("Google Calendar service", () => {
     expect(url.searchParams.get("state")).toBe(state);
     expect(url.searchParams.get("access_type")).toBe("offline");
     expect(url.searchParams.get("scope")).toContain("calendar.events.readonly");
+    expect(url.searchParams.get("scope")).toContain(GOOGLE_CALENDAR_SCOPES[1]);
   });
 
   it("creates a sufficiently unpredictable OAuth state", () => {
@@ -165,7 +169,7 @@ describe("Google Calendar service", () => {
     // Act
     const events = await listUpcomingGoogleEvents(
       { accessToken: "access", expiresAt: Date.now() },
-      { timeMin: "2026-10-11T00:00:00Z", timeMax: "2026-10-12T00:00:00Z", maxResults: 5 },
+      { timeMin: "2026-10-11T00:00:00Z", timeMax: "2026-10-12T00:00:00Z", maxResults: 5, calendarIds: ["primary"] },
       fetchMock,
     );
 
@@ -173,6 +177,77 @@ describe("Google Calendar service", () => {
     expect(events).toHaveLength(1);
     expect(events[0].title).toBe("Planning");
     expect(fetchMock.mock.calls[0][1]).toMatchObject({ headers: { Authorization: "Bearer access" } });
+  });
+
+  it("lists available calendars and excludes birthdays and hidden calendars", async () => {
+    // Arrange
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          items: [
+            { id: "primary", summary: "Personal", primary: true },
+            { id: "work", summaryOverride: "Trabajo" },
+            { id: "contacts#birthday", summary: "Birthdays" },
+            { id: "hidden", summary: "Hidden", hidden: true },
+            { id: "deleted", summary: "Deleted", deleted: true },
+            { summary: "Without id" },
+          ],
+        }),
+        { status: 200 },
+      ),
+    );
+
+    // Act
+    const calendars = await listGoogleCalendars({ accessToken: "access", expiresAt: Date.now() }, fetchMock);
+
+    // Assert
+    expect(calendars).toEqual([
+      { id: "primary", summary: "Personal", primary: true },
+      { id: "work", summary: "Trabajo" },
+    ]);
+  });
+
+  it("identifies birthday calendars by provider id or translated name", () => {
+    // Arrange / Act / Assert
+    expect(isBirthdayCalendar({ id: "birthdays", summary: "Birthdays" })).toBe(true);
+    expect(isBirthdayCalendar({ id: "cumples", summary: "Cumpleaños" })).toBe(true);
+    expect(isBirthdayCalendar({ id: "contacts#calendar", summary: "Contactos" })).toBe(true);
+    expect(isBirthdayCalendar({ id: "work", summary: "Trabajo" })).toBe(false);
+  });
+
+  it("combines, orders, and limits events from several calendars", async () => {
+    // Arrange
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ items: [{ id: "late", summary: "Trabajo", start: { dateTime: "2026-10-11T12:00:00Z" } }] }), { status: 200 }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ items: [{ id: "early", summary: "Personal", start: { dateTime: "2026-10-11T09:00:00Z" } }] }), { status: 200 }),
+      );
+
+    // Act
+    const events = await listUpcomingGoogleEvents(
+      { accessToken: "access", expiresAt: Date.now() },
+      { calendarIds: ["work", "personal"], maxResults: 1 },
+      fetchMock,
+    );
+
+    // Assert
+    expect(events).toHaveLength(1);
+    expect(events[0].id).toBe("early");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("returns no events when the account has no usable calendars", async () => {
+    // Arrange
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ items: [] }), { status: 200 }));
+
+    // Act
+    const events = await listUpcomingGoogleEvents({ accessToken: "access", expiresAt: Date.now() }, {}, fetchMock);
+
+    // Assert
+    expect(events).toEqual([]);
+    expect(fetchMock).toHaveBeenCalledOnce();
   });
 
   it("returns an empty list when Google returns no events", async () => {
@@ -186,12 +261,30 @@ describe("Google Calendar service", () => {
     expect(events).toEqual([]);
   });
 
+  it("uses defaults when a selected calendar has no query options", async () => {
+    // Arrange
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({}), { status: 200 }));
+
+    // Act
+    const events = await listUpcomingGoogleEvents(
+      { accessToken: "access", expiresAt: Date.now() },
+      { calendarIds: ["primary"] },
+      fetchMock,
+    );
+
+    // Assert
+    expect(events).toEqual([]);
+    expect(fetchMock).toHaveBeenCalledOnce();
+  });
+
   it("surfaces a Calendar API failure", async () => {
     // Arrange
     const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 403 }));
 
     // Act / Assert
-    await expect(listUpcomingGoogleEvents({ accessToken: "access", expiresAt: Date.now() }, {}, fetchMock)).rejects.toThrow("403");
+    await expect(
+      listUpcomingGoogleEvents({ accessToken: "access", expiresAt: Date.now() }, { calendarIds: ["primary"] }, fetchMock),
+    ).rejects.toThrow("403");
   });
 
   it("encrypts and decrypts the token without exposing its contents", () => {
