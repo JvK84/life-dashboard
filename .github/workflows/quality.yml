@@ -3,11 +3,14 @@ name: Quality
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
+
+concurrency:
+  group: quality-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   quality:
+    name: Quality
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,3 +23,24 @@ jobs:
       - run: npx tsc --noEmit
       - run: npm run test:coverage
       - run: npm run build
+
+  performance:
+    name: Performance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run build
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@0.15.1 autorun
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          if-no-files-found: warn

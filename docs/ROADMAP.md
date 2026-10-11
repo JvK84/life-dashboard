@@ -11,7 +11,7 @@ Estado general del proyecto y próximos hitos.
 - [x] Añadir interacción inicial para tareas e inbox.
 - [x] Añadir tests unitarios de los flujos principales.
 - [x] Modificar los tests unitarios siguiendo el patrón AAA (Arrange–Act–Assert).
-- [ ] Medir la cobertura real y exigir el umbral acordado en CI.
+- [x] Medir la cobertura real y exigir el umbral acordado en CI.
 - [x] Configurar workflow de calidad para Pull Requests hacia `main`.
 - [x] Crear instrucciones para Codex y documentación de arquitectura, referencias y roadmap.
 
@@ -26,13 +26,14 @@ Estado: análisis inicial realizado sobre [components/dashboard.tsx](../componen
 - [x] Instalar/configurar el proveedor de cobertura de Vitest y generar un informe reproducible.
 - [x] Limitar la cobertura al código de aplicación (`app/` y `components/`), excluyendo configuración de build y tooling.
 - [x] Activar `all: true` para detectar archivos de aplicación sin tests.
-- [x] Definir umbrales del 100% para líneas, funciones, statements y branches del código de aplicación.
+- [x] Definir umbrales del 100% para líneas, funciones y statements, y del 95% para branches del código de aplicación.
 - [x] Añadir cobertura para la página principal y el layout raíz.
 - [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
 - [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.
-- [ ] Ejecutar una PR real y confirmar que la quality gate queda en verde.
-- [ ] Añadir tests de accesibilidad y de interacción para los controles que actualmente solo tienen representación visual.
-- [ ] Verificar localmente tests, cobertura, lint y build cuando el entorno de Node esté operativo.
+- [x] Ejecutar una PR real y confirmar que la quality gate queda en verde.
+- [x] Evitar ejecuciones duplicadas de la quality gate en PR mediante trigger exclusivo y control de concurrencia.
+- [x] Añadir tests de accesibilidad y de interacción para los controles que actualmente tenían solo representación visual.
+- [x] Verificar localmente tests, cobertura, lint y build.
 
 #### Code smells y mantenibilidad
 
@@ -62,7 +63,9 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Extraer primitives reutilizables a `src/components/ui`.
 - [x] Separar cada widget en `src/components/widgets`.
 - [x] Añadir persistencia de tareas en LocalStorage con recuperación segura ante datos inválidos.
-- [ ] Añadir alternancia de tema oscuro/claro.
+- [x] Añadir alternancia de tema oscuro/claro con persistencia de la preferencia.
+- [x] Corregir el contraste de la ubicación y del widget de energía en ambos temas.
+- [x] Aclarar el fondo oscuro general y el fondo de la agenda para mejorar la separación visual.
 
 ## 🔵 Futuro / Backlog
 
@@ -90,6 +93,17 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Integración de clima con Open-Meteo.
 - [ ] Configuración para acceso desde la red Wi-Fi doméstica.
 - [ ] Revisión de seguridad, accesibilidad y rendimiento.
+
+### Hito 6 — Observabilidad de rendimiento
+
+- [x] Instalar `@vercel/speed-insights` y añadir `SpeedInsights` al layout raíz.
+- [x] Validar la integración en PR mediante test de integración, TypeScript, tests de cobertura y build en GitHub Actions.
+- [x] Añadir un check `Performance` con Lighthouse CI, umbrales de rendimiento, accesibilidad y Core Web Vitals.
+- [x] Publicar los informes de Lighthouse como artefacto de la PR.
+- [ ] Marcar `Quality / Performance` como check obligatorio en la protección de `main`.
+- [ ] Activar Speed Insights en el proyecto de Vercel.
+- [ ] Desplegar la aplicación y confirmar la recepción de métricas Core Web Vitals.
+- [ ] Revisar periódicamente las métricas y registrar acciones de mejora de rendimiento.
 
 ## Criterio de avance
 
