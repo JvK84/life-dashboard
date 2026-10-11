@@ -27,9 +27,14 @@ Estado: análisis inicial realizado sobre [components/dashboard.tsx](../componen
 - [x] Limitar la cobertura al código de aplicación (`app/` y `components/`), excluyendo configuración de build y tooling.
 - [x] Activar `all: true` para detectar archivos de aplicación sin tests.
 - [x] Definir umbrales del 100% para líneas, funciones y statements, y del 95% para branches del código de aplicación.
+- [x] Definir umbrales del 100% para líneas, funciones y statements, y del 95% para branches del código de aplicación.
 - [x] Añadir cobertura para la página principal y el layout raíz.
 - [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
 - [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.
+- [x] Ejecutar una PR real y confirmar que la quality gate queda en verde.
+- [x] Evitar ejecuciones duplicadas de la quality gate en PR mediante trigger exclusivo y control de concurrencia.
+- [x] Añadir tests de accesibilidad y de interacción para los controles que actualmente tenían solo representación visual.
+- [x] Verificar localmente tests, cobertura, lint y build.
 - [x] Ejecutar una PR real y confirmar que la quality gate queda en verde.
 - [x] Evitar ejecuciones duplicadas de la quality gate en PR mediante trigger exclusivo y control de concurrencia.
 - [x] Añadir tests de accesibilidad y de interacción para los controles que actualmente tenían solo representación visual.
@@ -63,6 +68,9 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Extraer primitives reutilizables a `src/components/ui`.
 - [x] Separar cada widget en `src/components/widgets`.
 - [x] Añadir persistencia de tareas en LocalStorage con recuperación segura ante datos inválidos.
+- [x] Añadir alternancia de tema oscuro/claro con persistencia de la preferencia.
+- [x] Corregir el contraste de la ubicación y del widget de energía en ambos temas.
+- [x] Aclarar el fondo oscuro general y el fondo de la agenda para mejorar la separación visual.
 - [x] Añadir alternancia de tema oscuro/claro con persistencia de la preferencia.
 - [x] Corregir el contraste de la ubicación y del widget de energía en ambos temas.
 - [x] Aclarar el fondo oscuro general y el fondo de la agenda para mejorar la separación visual.
