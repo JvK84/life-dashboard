@@ -73,5 +73,6 @@ Los widgets no deben llamar directamente a Google, Supabase u otros proveedores.
 ## Decisiones de integración
 
 - Google Calendar y Gmail se conectarán mediante OAuth. Los tokens y secretos permanecerán en el servidor.
+- La primera integración implementada es Google Calendar en `/api/integrations/google/calendar`: usa scopes de solo lectura, valida el estado OAuth, cifra la credencial en una cookie `HttpOnly` y renueva el access token cuando está próximo a caducar. La persistencia multiusuario server-side queda condicionada a incorporar identidad y Supabase.
 - Open-Meteo se usará para clima sin API key cuando la ubicación y el nivel de precisión lo permitan.
 - Supabase será optativo para sincronizar datos entre dispositivos; LocalStorage será el fallback para el modo local.

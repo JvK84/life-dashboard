@@ -133,6 +133,7 @@ describe("Dashboard", () => {
     expect(screen.getByRole("button", { name: "Añadir atajo" })).toBeInTheDocument();
     expect(firstTask).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("link", { name: "Ver calendario" })).toHaveAttribute("href", "#calendar");
+    expect(screen.getByRole("link", { name: "Conectar Google Calendar" })).toHaveAttribute("href", "/api/integrations/google/calendar/connect");
     expect(screen.getByRole("link", { name: "Abrir Gmail" })).toHaveAttribute("href", "#gmail");
   });
 
@@ -148,6 +149,13 @@ describe("Dashboard", () => {
     await waitFor(() => expect(document.documentElement).toHaveClass("dark"));
     expect(localStorage.getItem("life-dashboard.theme")).toBe("dark");
     expect(screen.getByRole("button", { name: "Activar modo claro" })).toBeInTheDocument();
+
+    // Act
+    fireEvent.click(screen.getByRole("button", { name: "Activar modo claro" }));
+
+    // Assert
+    await waitFor(() => expect(document.documentElement).not.toHaveClass("dark"));
+    expect(localStorage.getItem("life-dashboard.theme")).toBe("light");
   });
 
   it("restores a previously selected theme", async () => {

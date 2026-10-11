@@ -71,10 +71,16 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 
 ### Hito 2 — Integraciones personales
 
-- [ ] Integración con Google Calendar API.
+- [x] Crear rama de trabajo y entregar una primera PR de integración de Google Calendar.
+- [x] Integración con Google Calendar API en modo lectura: OAuth, conexión y endpoint de próximos eventos.
+- [x] Normalizar eventos de Google Calendar al modelo interno consumible por la agenda.
+- [x] Añadir pruebas unitarias con patrón AAA para autorización, tokens, cifrado y normalización.
+- [x] Mantener la validación de performance de la PR mediante Lighthouse CI y el informe como artefacto.
+- [ ] Persistir tokens en un almacén server-side asociado a la identidad del usuario cuando se incorpore Supabase/Auth.
 - [ ] Integración con Gmail API.
-- [ ] Gestión de OAuth y renovación segura de tokens.
-- [ ] Normalización de eventos y correos a tipos internos.
+- [x] Gestión de OAuth y renovación segura de tokens para Calendar; queda extenderla a Gmail y mover el almacenamiento a una sesión server-side persistente.
+- [x] Renovar access tokens de Calendar cuando están próximos a caducar; extender el mecanismo al resto de proveedores.
+- [x] Normalización de eventos a tipos internos; queda pendiente la normalización de correos.
 
 ### Hito 3 — Sistema de tareas
 
@@ -104,6 +110,16 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Activar Speed Insights en el proyecto de Vercel.
 - [ ] Desplegar la aplicación y confirmar la recepción de métricas Core Web Vitals.
 - [ ] Revisar periódicamente las métricas y registrar acciones de mejora de rendimiento.
+
+### Entrega actual — Google Calendar
+
+- Rama prevista: `feature/google-calendar-integration`.
+- Flujo implementado: `/api/integrations/google/calendar/connect` → consentimiento Google → `/api/integrations/google/calendar/callback` → `/api/integrations/google/calendar/events`.
+- El scope solicitado es `calendar.events.readonly`; no se habilitan escrituras.
+- La PR debe conservar en verde `Quality / quality` y `Quality / Performance`. La protección del repositorio debe exigir ambos checks por sus nombres exactos.
+- Pendiente de entorno: configurar las cuatro variables `GOOGLE_*` en GitHub/Vercel y registrar la URI de callback en Google Cloud.
+- Validación local realizada: 30 tests, 100% de statements/líneas/funciones, 98,7% de branches, lint correcto, TypeScript correcto y build correcto.
+- Rama y PR pendientes de creación por bloqueo del entorno: `git` no arranca porque `xcrun` apunta a `/Library/Developer/CommandLineTools` inexistente; tampoco está disponible `gh` ni un conector GitHub.
 
 ## Criterio de avance
 
