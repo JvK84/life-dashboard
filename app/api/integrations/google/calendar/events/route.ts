@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { getCalendarRangeWindow, parseCalendarRange } from "@/src/lib/utils/calendar-range";
 import {
   listUpcomingGoogleEvents,
   refreshGoogleToken,
@@ -12,15 +13,17 @@ import {
 
 export const runtime = "nodejs";
 
-export async function GET() {
+export async function GET(request: Request) {
   const cookieStore = await cookies();
   const value = cookieStore.get(GOOGLE_TOKEN_COOKIE)?.value;
   if (!value) return NextResponse.json({ error: "Google Calendar no está conectado" }, { status: 401 });
 
   try {
     const token = decryptGoogleToken(value);
+    const range = parseCalendarRange(new URL(request.url).searchParams.get("range"));
+    const rangeWindow = getCalendarRangeWindow(range);
     const refreshedToken = token.expiresAt <= Date.now() + 60_000 ? await refreshGoogleToken(token) : token;
-    const events = await listUpcomingGoogleEvents(refreshedToken);
+    const events = await listUpcomingGoogleEvents(refreshedToken, rangeWindow);
     const response = NextResponse.json({ events });
     if (refreshedToken !== token) {
       response.cookies.set(GOOGLE_TOKEN_COOKIE, encryptGoogleToken(refreshedToken), {
