@@ -46,7 +46,8 @@ SUPABASE_SERVICE_ROLE_KEY=
 # Google OAuth (Calendar y Gmail)
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-GOOGLE_REDIRECT_URI=http://localhost:3000/api/auth/callback/google
+GOOGLE_REDIRECT_URI=http://localhost:3000/api/integrations/google/calendar/callback
+GOOGLE_OAUTH_STATE_SECRET=
 
 # Open-Meteo / ubicación del dashboard
 NEXT_PUBLIC_WEATHER_LATITUDE=
@@ -62,3 +63,5 @@ Cuando se añada una variable de entorno:
 2. Explicar su propósito y si es pública o solo de servidor en este documento.
 3. Validarla al arrancar el servicio que la consume.
 4. No imprimir su valor en logs ni incluirlo en capturas, tests o documentación pública.
+
+`GOOGLE_OAUTH_STATE_SECRET` es una variable privada usada para cifrar la credencial temporal de Calendar en una cookie `HttpOnly`. El flujo MVP también comprueba el estado OAuth mediante una cookie `SameSite=Lax`. En la siguiente iteración, cuando exista identidad de usuario y persistencia Supabase, la credencial se moverá a un almacén server-side asociado al usuario.

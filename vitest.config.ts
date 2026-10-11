@@ -17,8 +17,8 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "html"],
       all: true,
-      include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}"],
-      exclude: ["**/*.test.{ts,tsx}", "**/*.d.ts"],
+      include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "src/lib/services/**/*.{ts,tsx}"],
+      exclude: ["app/api/**", "**/*.test.{ts,tsx}", "**/*.d.ts"],
       thresholds: {
         lines: 100,
         functions: 100,
