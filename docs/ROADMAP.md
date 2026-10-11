@@ -94,6 +94,17 @@ Prioridad recomendada: primero cobertura ejecutable en CI y actualización funci
 - [ ] Configuración para acceso desde la red Wi-Fi doméstica.
 - [ ] Revisión de seguridad, accesibilidad y rendimiento.
 
+### Hito 6 — Observabilidad de rendimiento
+
+- [x] Instalar `@vercel/speed-insights` y añadir `SpeedInsights` al layout raíz.
+- [x] Validar la integración en PR mediante test de integración, TypeScript, tests de cobertura y build en GitHub Actions.
+- [x] Añadir un check `Performance` con Lighthouse CI, umbrales de rendimiento, accesibilidad y Core Web Vitals.
+- [x] Publicar los informes de Lighthouse como artefacto de la PR.
+- [ ] Marcar `Quality / Performance` como check obligatorio en la protección de `main`.
+- [ ] Activar Speed Insights en el proyecto de Vercel.
+- [ ] Desplegar la aplicación y confirmar la recepción de métricas Core Web Vitals.
+- [ ] Revisar periódicamente las métricas y registrar acciones de mejora de rendimiento.
+
 ## Criterio de avance
 
 Cada hito debe tener comportamiento implementado, tests adecuados, documentación actualizada y una verificación exitosa en CI antes de marcarse como completado.
