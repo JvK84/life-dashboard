@@ -31,6 +31,7 @@ Estado: análisis inicial realizado sobre [components/dashboard.tsx](../componen
 - [x] Ejecutar `npm run test:coverage` en CI como condición de aprobación de la PR.
 - [x] Validar TypeScript, lint, tests con cobertura y build dentro del workflow de calidad.
 - [x] Ejecutar una PR real y confirmar que la quality gate queda en verde.
+- [x] Evitar ejecuciones duplicadas de la quality gate en PR mediante trigger exclusivo y control de concurrencia.
 - [x] Añadir tests de accesibilidad y de interacción para los controles que actualmente tenían solo representación visual.
 - [x] Verificar localmente tests, cobertura, lint y build.
 

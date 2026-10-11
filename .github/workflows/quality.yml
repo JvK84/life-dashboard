@@ -3,8 +3,10 @@ name: Quality
 on:
   pull_request:
     branches: [main]
-  push:
-    branches: [main]
+
+concurrency:
+  group: quality-pr-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   quality:
