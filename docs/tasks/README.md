@@ -7,7 +7,7 @@ Este documento es la fuente única de verdad para el roadmap funcional y las tar
 Estado: **en progreso**. La base Next.js, los quality gates, la cobertura, la estructura de widgets y la persistencia local están implementadas. Queda cerrar acciones visuales pendientes y extraer primitives UI reutilizables.
 
 - [TASK-101: Configuración de entorno y PR de Google Calendar](./epic-1-launch/TASK-101.md) — pendiente de completar la entrega de la rama y la PR.
-- [TASK-102: Normalización de acciones visuales pendientes en Dashboard](./epic-1-launch/TASK-102.md) — pendiente de implementar o retirar acciones sin comportamiento.
+- [x] [TASK-102: Normalización de acciones visuales pendientes en Dashboard](./epic-1-launch/TASK-102.md) — completada.
 
 ## Hito 2 — Integraciones Personales / Gmail
 
