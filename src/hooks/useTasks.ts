@@ -34,7 +34,24 @@ export function readStoredTasks(storageKey: string, fallback: Task[]): Task[] {
     const storedTasks = window.localStorage.getItem(storageKey);
     if (!storedTasks) return fallback;
 
-    return parseTasks(JSON.parse(storedTasks));
+    const parsed: unknown = JSON.parse(storedTasks);
+    const normalized = Array.isArray(parsed)
+      ? parsed.map((candidate) => {
+          if (!candidate || typeof candidate !== "object") return candidate;
+          const legacy = candidate as { id?: unknown; label?: unknown; done?: unknown; tag?: unknown };
+          if (typeof legacy.id !== "string" || typeof legacy.label !== "string" || typeof legacy.done !== "boolean") return candidate;
+          return {
+            id: legacy.id,
+            title: legacy.label,
+            completed: legacy.done,
+            priority: "medium",
+            tags: typeof legacy.tag === "string" ? [legacy.tag] : [],
+            archived: false,
+          };
+        })
+      : parsed;
+    const restored = parseTasks(normalized);
+    return restored.length > 0 ? restored : fallback;
   } catch {
     return fallback;
   }

@@ -60,6 +60,30 @@ describe("useTasks", () => {
     expect(result.current.tasks).toEqual(initialTasks);
   });
 
+  it("falls back to initial tasks when storage contains no valid tasks", () => {
+    // Arrange
+    const initialTasks = [baseTask];
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify([{ id: "invalid", completed: "yes" }]));
+
+    // Act
+    const { result } = renderHook(() => useTasks({ initialTasks }));
+
+    // Assert
+    expect(result.current.tasks).toEqual(initialTasks);
+  });
+
+  it("falls back to initial tasks when storage contains a non-array JSON value", () => {
+    // Arrange
+    const initialTasks = [baseTask];
+    localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify({ tasks: [] }));
+
+    // Act
+    const { result } = renderHook(() => useTasks({ initialTasks }));
+
+    // Assert
+    expect(result.current.tasks).toEqual(initialTasks);
+  });
+
   it("falls back to initial tasks when storage access throws", () => {
     // Arrange
     const initialTasks = [baseTask];

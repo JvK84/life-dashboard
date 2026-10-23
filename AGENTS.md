@@ -44,6 +44,8 @@ Antes de escribir código:
 
 ### Aislamiento obligatorio desde `main`
 
+Este flujo es automático para cada nueva tarea solicitada por el usuario, aunque la conversación sea nueva: el agente debe comenzar desde `main` actualizado y no reutilizar la rama de una tarea anterior.
+
 Antes de crear cualquier rama de trabajo, actualizar siempre `main` desde el remoto y crear la rama temática a partir de ese estado actualizado:
 
 ```bash
@@ -51,6 +53,17 @@ git switch main
 git pull --ff-only origin main
 git switch -c <rama-tematica>
 ```
+
+El flujo completo de entrega es:
+
+1. Comprobar `git status --short --branch`. Si existen cambios locales ajenos a la tarea, no sobrescribirlos ni mezclarlos: detenerse y pedir instrucciones. Los cambios creados durante la tarea deben conservarse al cambiar de rama de forma segura.
+2. Ejecutar `git switch main` y `git pull --ff-only origin main`.
+3. Crear una rama temática nueva desde ese `main` actualizado.
+4. Implementar la tarea, sus tests y la documentación dentro del alcance acordado.
+5. Ejecutar las quality gates obligatorias y resolver sus fallos antes de continuar.
+6. Crear un commit Conventional Commit que contenga únicamente los cambios de la tarea.
+7. Publicar la rama y abrir automáticamente una Pull Request hacia `main`, incluyendo resumen, pruebas, riesgos y configuración adicional.
+8. Si GitHub, la autenticación, la red o una herramienta de PR no están disponibles, conservar el commit y la rama, e informar claramente del bloqueo sin fingir que la PR fue creada.
 
 No se deben crear ramas nuevas desde otra rama de trabajo, salvo que la tarea documente explícitamente una dependencia aún no fusionada y el usuario autorice esa excepción.
 
