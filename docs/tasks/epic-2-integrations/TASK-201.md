@@ -1,6 +1,6 @@
 # [TASK-201] Normalizador de correos de Gmail a tipos internos
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 2 — Integraciones Personales
 - **Prioridad:** Media
 
@@ -28,5 +28,5 @@ Transformar las respuestas crudas de la API de Gmail en un tipo de datos interno
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] 100% de cobertura en el nuevo módulo de normalización.
-- [ ] Tipado estricto en TypeScript sin `any` explícito.
+- [x] 100% de cobertura en el nuevo módulo de normalización.
+- [x] Tipado estricto en TypeScript sin `any` explícito.
