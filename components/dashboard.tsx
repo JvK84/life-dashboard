@@ -11,7 +11,7 @@ import { EnergyWidget } from "@/src/components/widgets/energy-widget";
 import { InboxWidget } from "@/src/components/widgets/inbox-widget";
 import { QuickLinksWidget } from "@/src/components/widgets/quick-links-widget";
 import { TasksWidget } from "@/src/components/widgets/tasks-widget";
-import type { Task } from "@/src/types/task";
+import type { DashboardTask } from "@/src/types/task";
 
 const TASKS_STORAGE_KEY = "life-dashboard.tasks";
 const THEME_STORAGE_KEY = "life-dashboard.theme";
@@ -55,7 +55,7 @@ export function Dashboard() {
     if (!storedTasks) return;
 
     try {
-      setTasks(JSON.parse(storedTasks) as Task[]);
+      setTasks(JSON.parse(storedTasks) as DashboardTask[]);
     } catch {
       window.localStorage.removeItem(TASKS_STORAGE_KEY);
     }

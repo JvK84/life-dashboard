@@ -17,7 +17,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "html"],
       all: true,
-      include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "src/lib/services/**/*.{ts,tsx}", "src/lib/integrations/**/*.{ts,tsx}", "src/lib/utils/calendar-range.ts"],
+      include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "src/lib/services/**/*.{ts,tsx}", "src/lib/integrations/**/*.{ts,tsx}", "src/lib/utils/calendar-range.ts", "src/lib/validations/**/*.{ts,tsx}"],
       exclude: ["app/api/integrations/google/calendar/**", "**/*.test.{ts,tsx}", "**/*.d.ts"],
       thresholds: {
         lines: 100,
