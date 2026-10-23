@@ -42,6 +42,18 @@ Antes de escribir código:
 4. Identificar los archivos, módulos y pruebas afectados.
 5. Confirmar el alcance de la tarea antes de introducir cambios adyacentes.
 
+### Aislamiento obligatorio desde `main`
+
+Antes de crear cualquier rama de trabajo, actualizar siempre `main` desde el remoto y crear la rama temática a partir de ese estado actualizado:
+
+```bash
+git switch main
+git pull --ff-only origin main
+git switch -c <rama-tematica>
+```
+
+No se deben crear ramas nuevas desde otra rama de trabajo, salvo que la tarea documente explícitamente una dependencia aún no fusionada y el usuario autorice esa excepción.
+
 Cada tarea debe ejecutarse de forma aislada en una rama temática, siguiendo una convención como:
 
 ```text

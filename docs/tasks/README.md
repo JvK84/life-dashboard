@@ -43,8 +43,9 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 
 1. Leer la tarea atómica correspondiente antes de modificar código.
 2. Consultar este roadmap y la documentación de arquitectura y contratos cuando el cambio afecte a estructura o datos.
-3. Trabajar en una rama temática aislada y limitar el alcance a la tarea.
-4. Implementar tests AAA para los caminos nuevos, incluidos estados de error, vacío e interacción.
-5. Ejecutar `npm run test:coverage`, `npm run lint` y `npm run build` antes de finalizar.
-6. Actualizar el estado de la tarea y este índice cuando cambie el alcance o el progreso.
-7. No marcar una tarea como completada si alguna quality gate obligatoria sigue fallando.
+3. Actualizar `main` con `git switch main` y `git pull --ff-only origin main`.
+4. Crear la rama temática nueva a partir del `main` actualizado y limitar el alcance a la tarea.
+5. Implementar tests AAA para los caminos nuevos, incluidos estados de error, vacío e interacción.
+6. Ejecutar `npm run test:coverage`, `npm run lint` y `npm run build` antes de finalizar.
+7. Actualizar el estado de la tarea y este índice cuando cambie el alcance o el progreso.
+8. No marcar una tarea como completada si alguna quality gate obligatoria sigue fallando.
