@@ -1,78 +1,39 @@
 # Arquitectura
 
-## Objetivo
+## Pila tecnológica
 
-Life Dashboard es una Single Page Application personal para reunir agenda, correo, tareas, energía/clima y accesos rápidos en una vista rápida y clara.
+- Next.js con App Router y React.
+- TypeScript en modo estricto.
+- Tailwind CSS para estilos responsive y temas claro/oscuro.
+- Vitest y React Testing Library para pruebas unitarias y de integración.
+- GitHub Actions con Lighthouse CI para validar calidad y rendimiento en Pull Requests.
 
-## Stack definido
-
-- **Framework:** Next.js con App Router.
-- **UI:** React y TypeScript estricto.
-- **Estilos:** Tailwind CSS.
-- **Estado local:** estado de React y, cuando crezca la interacción compartida, Zustand.
-- **Persistencia:** LocalStorage para preferencias y datos locales; Supabase para persistencia sincronizada y autenticación cuando se necesite acceso desde varios dispositivos.
-- **Integraciones:** servicios aislados en TypeScript dentro de `src/lib/services`.
-- **Calidad:** ESLint, Vitest, Testing Library y GitHub Actions para validar PRs hacia `main`.
-
-## Estructura de directorios
+## Estructura
 
 ```text
-life-dashboard/
-├── .codex/
-│   └── AGENTS.md
-├── .github/
-│   └── workflows/
-│       └── quality.yml
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/
-│   └── dashboard.tsx
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── REFERENCES.md
-│   └── ROADMAP.md
-├── src/
-│   ├── components/
-│   │   ├── ui/          # Botones, tarjetas, inputs y primitives reutilizables
-│   │   └── widgets/     # Agenda, inbox, tareas, energía y atajos
-│   ├── lib/
-│   │   ├── services/    # Clientes y adaptadores de APIs externas
-│   │   └── utils/       # Utilidades puras compartidas
-│   ├── types/           # Tipos de dominio y contratos de integraciones
-│   └── stores/          # Stores Zustand cuando el estado compartido lo requiera
-├── .env.example
-└── package.json
+app/                         # rutas, layout y estilos globales de Next.js
+components/                  # composición actual del dashboard
+src/components/widgets/      # widgets aislados de agenda, tareas, energía, etc.
+src/lib/services/            # integraciones externas y servicios tipados
+src/lib/utils/               # lógica pura y transformaciones reutilizables
+src/hooks/                   # hooks compartidos; reservado para hooks extraídos
+docs/                        # contexto técnico, roadmap y tareas
+docs/tasks/                  # épicas y micro-tareas atómicas
 ```
 
-La implementación inicial mantiene el componente principal en `components/` para permitir una migración progresiva hacia la estructura `src/` sin bloquear el primer prototipo. Las nuevas piezas reutilizables deben seguir el mapa `src/components/ui` y `src/components/widgets`.
+La implementación actual utiliza `src/lib` para servicios y utilidades, y `src/components/widgets/` para los widgets. Si se introduce una carpeta `lib/` o `hooks/` en la raíz, debe justificarse y mantener una única fuente de verdad por módulo.
 
 ## Flujo de datos
 
-```text
-Widget visual → servicio tipado → API externa
-       ↓              ↓
-   estado UI      normalización de datos
-       ↓
- LocalStorage / Supabase
-```
+`Dashboard` compone los widgets y coordina el estado de pantalla. Las integraciones externas se ejecutan a través de servicios tipados, normalmente desde rutas de servidor, y sus respuestas se normalizan antes de llegar a la UI. Los widgets reciben datos y callbacks por props; no deben llamar directamente a Google Calendar u otros proveedores.
 
-Los widgets no deben llamar directamente a Google, Supabase u otros proveedores. Cada integración tendrá un servicio tipado y una capa de normalización para que la UI dependa de modelos internos estables.
+Los datos mock y las constantes reutilizables viven fuera de los componentes, en módulos como `src/data/dashboard.ts`, para evitar recreaciones durante el render y facilitar las pruebas.
 
-## Guía visual
+## Patrones acordados
 
-- Usar un Bento Grid responsive como estructura principal.
-- Mantener tarjetas con jerarquía clara, bordes redondeados amplios y espacios generosos.
-- Soportar tema oscuro y claro mediante tokens de color, evitando colores hardcodeados dentro de cada widget.
-- Priorizar fondos neutros, contraste alto para información importante y un color de acento controlado.
-- Usar glassmorphism solo como detalle puntual; la legibilidad y la velocidad visual tienen prioridad.
-- Las acciones rápidas deben ser visibles, accesibles por teclado y tener estados hover/focus.
-- El layout debe funcionar desde móvil hasta un monitor grande sin depender de una resolución concreta.
-
-## Decisiones de integración
-
-- Google Calendar y Gmail se conectarán mediante OAuth. Los tokens y secretos permanecerán en el servidor.
-- La primera integración implementada es Google Calendar en `/api/integrations/google/calendar`: usa scopes de solo lectura, valida el estado OAuth, cifra la credencial en una cookie `HttpOnly` y renueva el access token cuando está próximo a caducar. La persistencia multiusuario server-side queda condicionada a incorporar identidad y Supabase.
-- Open-Meteo se usará para clima sin API key cuando la ubicación y el nivel de precisión lo permitan.
-- Supabase será optativo para sincronizar datos entre dispositivos; LocalStorage será el fallback para el modo local.
+- **Separación de widgets:** cada widget encapsula una responsabilidad visual y de interacción concreta.
+- **Composición en `Dashboard`:** el componente de dashboard conecta estado, servicios y widgets sin concentrar la lógica de presentación de cada sección.
+- **Estado funcional:** cuando el nuevo estado depende del anterior, usar actualizaciones funcionales como `setTasks((previous) => nextTasks)` para evitar cierres obsoletos.
+- **Frontera de servicios:** validar, normalizar y tipar los datos externos antes de entregarlos a componentes.
+- **Constantes fuera de componentes:** mantener mocks, valores por defecto y configuraciones estáticas en módulos independientes.
+- **Accesibilidad por diseño:** los controles deben tener foco visible, nombre accesible, soporte de teclado y estados ARIA adecuados.
