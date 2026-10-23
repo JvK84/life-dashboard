@@ -1,6 +1,6 @@
 # [TASK-301] Modelo Zod y parser seguro de tareas
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 3 — Sistema de Tareas
 - **Prioridad:** Alta
 
@@ -34,5 +34,5 @@ Definir la validación en tiempo de ejecución para el modelo de tareas extendid
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Cobertura 100% en `src/lib/validations/task.ts`.
-- [ ] Patrón AAA cumplido estrictamente en todos los casos de test.
+- [x] Cobertura 100% en `src/lib/validations/task.ts`.
+- [x] Patrón AAA cumplido estrictamente en todos los casos de test.

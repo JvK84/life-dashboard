@@ -20,7 +20,7 @@ Estado: **completado**. Google Calendar está integrado con OAuth, normalizació
 
 Estado: **pendiente**. La aplicación dispone actualmente de tareas locales básicas; faltan el modelo extendido, la persistencia avanzada, los filtros y las prioridades.
 
-- [TASK-301: Modelo Zod y parser seguro de tareas](./epic-3-tasks/TASK-301.md) — pendiente.
+- [x] [TASK-301: Modelo Zod y parser seguro de tareas](./epic-3-tasks/TASK-301.md) — completada.
 - [TASK-302: Hook de persistencia local y operaciones de tareas](./epic-3-tasks/TASK-302.md) — pendiente.
 - [TASK-303: Widget de tareas con prioridades y filtros de accesibilidad](./epic-3-tasks/TASK-303.md) — pendiente.
 
