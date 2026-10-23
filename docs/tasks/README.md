@@ -11,10 +11,10 @@ Estado: **en progreso**. La base Next.js, los quality gates, la cobertura, la es
 
 ## Hito 2 — Integraciones Personales / Gmail
 
-Estado: **parcialmente completado**. Google Calendar está integrado con OAuth, normalización, rangos de agenda, renovación de tokens y validación de performance. La normalización de Gmail está completada; queda implementar el endpoint de lectura.
+Estado: **completado**. Google Calendar está integrado con OAuth, normalización, rangos de agenda, renovación de tokens y validación de performance. Gmail dispone de normalización y endpoint de lectura.
 
 - [x] [TASK-201: Normalizador de correos de Gmail a tipos internos](./epic-2-integrations/TASK-201.md) — completada.
-- [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — pendiente.
+- [x] [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — completada.
 
 ## Hito 3 — Sistema de Tareas Avanzado
 
