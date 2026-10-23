@@ -1,6 +1,6 @@
 # [TASK-303] Widget de Tareas con prioridades y filtros de accesibilidad
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 3 — Sistema de Tareas
 - **Prioridad:** Alta
 
@@ -28,5 +28,5 @@ Rediseñar el componente visual del widget de tareas para reflejar la prioridad,
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Tests de interacción y accesibilidad pasando en verde.
-- [ ] Cobertura de branches >= 95%, líneas/funciones = 100%.
+- [x] Tests de interacción y accesibilidad pasando en verde.
+- [x] Cobertura de branches >= 95%, líneas/funciones = 100%.
