@@ -1,6 +1,6 @@
 # [TASK-202] Endpoint de lectura de mensajes de Gmail
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 2 — Integraciones Personales
 - **Prioridad:** Media
 
@@ -28,5 +28,5 @@ Exponer una API route `/api/integrations/google/gmail/messages` que obtenga y no
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Endpoint probado en Vitest con mocks de API de Google.
-- [ ] Cobertura del 100% en las rutas creadas.
+- [x] Endpoint probado en Vitest con mocks de API de Google.
+- [x] Cobertura del 100% en las rutas creadas.

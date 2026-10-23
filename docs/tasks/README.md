@@ -11,10 +11,10 @@ Estado: **en progreso**. La base Next.js, los quality gates, la cobertura, la es
 
 ## Hito 2 — Integraciones Personales / Gmail
 
-Estado: **parcialmente completado**. Google Calendar está integrado con OAuth, normalización, rangos de agenda, renovación de tokens y validación de performance. La normalización de Gmail está completada; queda implementar el endpoint de lectura.
+Estado: **completado**. Google Calendar está integrado con OAuth, normalización, rangos de agenda, renovación de tokens y validación de performance. Gmail dispone de normalización y endpoint de lectura.
 
 - [x] [TASK-201: Normalizador de correos de Gmail a tipos internos](./epic-2-integrations/TASK-201.md) — completada.
-- [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — pendiente.
+- [x] [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — completada.
 
 ## Hito 3 — Sistema de Tareas Avanzado
 
@@ -43,8 +43,9 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 
 1. Leer la tarea atómica correspondiente antes de modificar código.
 2. Consultar este roadmap y la documentación de arquitectura y contratos cuando el cambio afecte a estructura o datos.
-3. Trabajar en una rama temática aislada y limitar el alcance a la tarea.
-4. Implementar tests AAA para los caminos nuevos, incluidos estados de error, vacío e interacción.
-5. Ejecutar `npm run test:coverage`, `npm run lint` y `npm run build` antes de finalizar.
-6. Actualizar el estado de la tarea y este índice cuando cambie el alcance o el progreso.
-7. No marcar una tarea como completada si alguna quality gate obligatoria sigue fallando.
+3. Actualizar `main` con `git switch main` y `git pull --ff-only origin main`.
+4. Crear la rama temática nueva a partir del `main` actualizado y limitar el alcance a la tarea.
+5. Implementar tests AAA para los caminos nuevos, incluidos estados de error, vacío e interacción.
+6. Ejecutar `npm run test:coverage`, `npm run lint` y `npm run build` antes de finalizar.
+7. Actualizar el estado de la tarea y este índice cuando cambie el alcance o el progreso.
+8. No marcar una tarea como completada si alguna quality gate obligatoria sigue fallando.
