@@ -18,7 +18,7 @@ export default defineConfig({
       reporter: ["text", "json-summary", "html"],
       all: true,
       include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "src/lib/services/**/*.{ts,tsx}", "src/lib/integrations/**/*.{ts,tsx}", "src/lib/utils/calendar-range.ts"],
-      exclude: ["app/api/**", "**/*.test.{ts,tsx}", "**/*.d.ts"],
+      exclude: ["app/api/integrations/google/calendar/**", "**/*.test.{ts,tsx}", "**/*.d.ts"],
       thresholds: {
         lines: 100,
         functions: 100,

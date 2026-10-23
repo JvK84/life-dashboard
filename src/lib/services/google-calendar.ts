@@ -1,9 +1,11 @@
 import type { GoogleCalendarEvent, GoogleCalendarToken } from "@/src/types/google-calendar";
 import type { CalendarRangeWindow } from "@/src/lib/utils/calendar-range";
+import { GOOGLE_GMAIL_SCOPE } from "@/src/lib/services/gmail";
 
 export const GOOGLE_CALENDAR_SCOPES = [
   "https://www.googleapis.com/auth/calendar.events.readonly",
   "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+  GOOGLE_GMAIL_SCOPE,
 ];
 const GOOGLE_AUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 const GOOGLE_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token";
