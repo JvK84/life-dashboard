@@ -1,6 +1,6 @@
 # [TASK-302] Hook de persistencia local y operaciones de tareas
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 3 — Sistema de Tareas
 - **Prioridad:** Alta
 
@@ -28,5 +28,5 @@ Extender la gestión de estado de tareas para soportar edición, cambio de prior
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Módulo testeadísimo con 100% de cobertura.
-- [ ] Cero cierres desactualizados (usar actualizaciones funcionales de estado `setTasks(prev => ...)`).
+- [x] Módulo testeadísimo con 100% de cobertura.
+- [x] Cero cierres desactualizados (usar actualizaciones funcionales de estado `setTasks(prev => ...)`).
