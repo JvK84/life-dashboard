@@ -196,11 +196,39 @@ describe("Dashboard", () => {
 
     // Assert
     expect(searchButton).toHaveFocus();
-    expect(screen.getByRole("button", { name: "Más opciones de agenda" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Añadir atajo" })).toBeInTheDocument();
+    expect(searchButton).toHaveAttribute("aria-expanded", "false");
+    expect(screen.getByRole("button", { name: "Más opciones de agenda (próximamente)" })).toHaveAttribute("aria-disabled", "true");
+    expect(screen.getByRole("button", { name: "Abrir Gmail" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Abrir Gmail" })).toHaveAttribute("aria-disabled", "true");
+    expect(screen.getByRole("button", { name: "Añadir atajo (próximamente)" })).toBeDisabled();
     expect(firstTask).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("link", { name: "Conectar Google Calendar" })).toHaveAttribute("href", "/api/integrations/google/calendar/connect");
-    expect(screen.getByRole("link", { name: "Abrir Gmail" })).toHaveAttribute("href", "#gmail");
+  });
+
+  it("filters visible tasks immediately from the search control", () => {
+    // Arrange
+    render(<Dashboard />);
+
+    // Act
+    fireEvent.click(screen.getByRole("button", { name: "Buscar" }));
+    fireEvent.change(screen.getByRole("searchbox", { name: "Buscar tareas" }), { target: { value: "propuesta" } });
+
+    // Assert
+    expect(screen.getByRole("button", { name: /Revisar propuesta de producto/i })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Preparar presentación/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Buscar" })).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("announces when the search has no matching tasks", () => {
+    // Arrange
+    render(<Dashboard />);
+    fireEvent.click(screen.getByRole("button", { name: "Buscar" }));
+
+    // Act
+    fireEvent.change(screen.getByRole("searchbox", { name: "Buscar tareas" }), { target: { value: "sin coincidencias" } });
+
+    // Assert
+    expect(screen.getByRole("status")).toHaveTextContent("No hay tareas que coincidan con tu búsqueda.");
   });
 
   it("toggles and persists the selected theme", async () => {
