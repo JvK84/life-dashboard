@@ -1,6 +1,6 @@
-import type { Task } from "@/src/types/task";
+import type { DashboardTask } from "@/src/types/task";
 
-export const initialTasks: Task[] = [
+export const initialTasks: DashboardTask[] = [
   { id: "task-1", label: "Revisar propuesta de producto", done: true, tag: "Trabajo" },
   { id: "task-2", label: "Comprar ingredientes para la cena", done: false, tag: "Personal" },
   { id: "task-3", label: "30 min de lectura", done: false, tag: "Bienestar" },

@@ -1,8 +1,8 @@
 import { Check, Circle, Plus, Send } from "lucide-react";
 import { useState } from "react";
-import type { Task } from "@/src/types/task";
+import type { DashboardTask } from "@/src/types/task";
 
-type TasksWidgetProps = { tasks: Task[]; totalTasks?: number; onToggle: (id: string) => void; onAdd: (label: string) => void };
+type TasksWidgetProps = { tasks: DashboardTask[]; totalTasks?: number; onToggle: (id: string) => void; onAdd: (label: string) => void };
 
 export function TasksWidget({ tasks, totalTasks = tasks.length, onToggle, onAdd }: TasksWidgetProps) {
   const [newTask, setNewTask] = useState("");
