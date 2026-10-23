@@ -1,6 +1,6 @@
 # [TASK-102] Normalización de acciones visuales pendientes en Dashboard
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 1 — Desbloqueo
 - **Prioridad:** Alta
 
@@ -29,6 +29,6 @@ Otorgar funcionalidad real o gestionar correctamente el estado inaccesible/inact
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] 0 controles interactivos sin handler o sin estado accesible.
-- [ ] Cobertura de tests preservada al 100%.
-- [ ] `npm run test:coverage` sin errores.
+- [x] 0 controles interactivos sin handler o sin estado accesible.
+- [x] Cobertura de tests preservada al 100%.
+- [x] `npm run test:coverage` sin errores.
