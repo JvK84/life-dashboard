@@ -24,6 +24,12 @@ Estado: **pendiente**. La aplicación dispone actualmente de tareas locales bás
 - [x] [TASK-302: Hook de persistencia local y operaciones de tareas](./epic-3-tasks/TASK-302.md) — completada.
 - [x] [TASK-303: Widget de tareas con prioridades y filtros de accesibilidad](./epic-3-tasks/TASK-303.md) — completada.
 
+## Hito 4 — Rendimiento y Sincronización
+
+Estado: **completado**.
+
+- [x] [TASK-401: Sincronización en background con polling adaptativo](./epic-4-performance/TASK-401.md) — completada.
+
 ## Hito 5 — Experiencia y Entorno Doméstico
 
 Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibles; quedan las mejoras de contexto doméstico y los atajos globales.
