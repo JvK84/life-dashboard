@@ -15,6 +15,7 @@ Estado: **completado**. Google Calendar está integrado con OAuth, normalizació
 
 - [x] [TASK-201: Normalizador de correos de Gmail a tipos internos](./epic-2-integrations/TASK-201.md) — completada.
 - [x] [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — completada.
+- [x] [TASK-203: Integración visual de Gmail y cabecera del dashboard](./epic-2-integrations/TASK-203.md) — completada.
 
 ## Hito 3 — Sistema de Tareas Avanzado
 
