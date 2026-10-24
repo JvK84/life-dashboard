@@ -1,6 +1,6 @@
 # [TASK-501] Widget de Clima con Open-Meteo API
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Epic:** Epic 5 — Contexto Doméstico
 - **Prioridad:** Baja
 
@@ -28,5 +28,5 @@ Sustituir los datos de clima mock por datos meteorológicos reales usando la API
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Fallback verificado ante errores de red.
-- [ ] Tests pasando en verde sin hacer peticiones HTTP reales.
+- [x] Fallback verificado ante errores de red.
+- [x] Tests pasando en verde sin hacer peticiones HTTP reales.
