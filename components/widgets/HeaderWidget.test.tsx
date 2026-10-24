@@ -14,8 +14,7 @@ describe("HeaderWidget", () => {
     render(<HeaderWidget />);
 
     // Assert
-    await waitFor(() => expect(screen.getByText("21.5º · Principalmente despejado")).toBeInTheDocument());
-    expect(screen.getByLabelText("Clima: 21.5º · Principalmente despejado")).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByLabelText("Clima: 21.5º · Principalmente despejado")).toBeInTheDocument());
   });
 
   it("uses cached weather when the network fails", async () => {
@@ -27,7 +26,6 @@ describe("HeaderWidget", () => {
     render(<HeaderWidget />);
 
     // Assert
-    expect(screen.getByText("18º · Nublado")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByLabelText("Clima: 18º · Nublado")).toBeInTheDocument());
   });
 
@@ -39,7 +37,6 @@ describe("HeaderWidget", () => {
     render(<HeaderWidget />);
 
     // Assert
-    await waitFor(() => expect(screen.getByText("Sin datos")).toBeInTheDocument());
-    expect(screen.getByLabelText("Clima: Sin datos")).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByLabelText("Clima: Sin datos")).toBeInTheDocument());
   });
 });

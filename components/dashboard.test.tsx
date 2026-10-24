@@ -2,6 +2,13 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Dashboard } from "./dashboard";
 
+const mockDashboardFetch = (calendarResponse: () => Response) =>
+  vi.fn((input: RequestInfo | URL) =>
+    String(input).startsWith("https://api.open-meteo.com")
+      ? Promise.resolve(new Response(JSON.stringify({ current_weather: { temperature: 19, weathercode: 0 } }), { status: 200 }))
+      : Promise.resolve(calendarResponse()),
+  );
+
 describe("Dashboard", () => {
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("Google Calendar no conectado")));
@@ -29,9 +36,7 @@ describe("Dashboard", () => {
     // Arrange
     vi.stubGlobal(
       "fetch",
-      vi.fn().mockResolvedValue(
-        new Response(JSON.stringify({ events: [{ id: "google-1", title: "Reunión Google", start: "2026-10-11T10:00:00Z", end: "2026-10-11T11:30:00Z", allDay: false }] }), { status: 200 }),
-      ),
+      mockDashboardFetch(() => new Response(JSON.stringify({ events: [{ id: "google-1", title: "Reunión Google", start: "2026-10-11T10:00:00Z", end: "2026-10-11T11:30:00Z", allDay: false }] }), { status: 200 })),
     );
 
     // Act
@@ -46,7 +51,7 @@ describe("Dashboard", () => {
 
   it("reloads the selected agenda range", async () => {
     // Arrange
-    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 401 }));
+    const fetchMock = mockDashboardFetch(() => new Response(null, { status: 401 }));
     vi.stubGlobal("fetch", fetchMock);
     render(<Dashboard />);
 
@@ -61,7 +66,7 @@ describe("Dashboard", () => {
 
   it("shows an empty state when the connected period has no events", async () => {
     // Arrange
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify({ events: [] }), { status: 200 })));
+    vi.stubGlobal("fetch", mockDashboardFetch(() => new Response(JSON.stringify({ events: [] }), { status: 200 })));
 
     // Act
     render(<Dashboard />);
@@ -74,7 +79,7 @@ describe("Dashboard", () => {
 
   it("keeps mock agenda data when Google Calendar is not connected", async () => {
     // Arrange
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(null, { status: 401 })));
+    vi.stubGlobal("fetch", mockDashboardFetch(() => new Response(null, { status: 401 })));
 
     // Act
     render(<Dashboard />);
