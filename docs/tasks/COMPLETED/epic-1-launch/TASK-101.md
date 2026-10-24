@@ -1,6 +1,6 @@
 # [TASK-101] Configuración de entorno y PR de Google Calendar
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completado
 - **Epic:** Epic 1 — Desbloqueo
 - **Prioridad:** Bloqueante
 
@@ -28,5 +28,5 @@ Subir la integración terminada de Google Calendar en la rama `feature/google-ca
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] PR creada sin conflictos.
-- [ ] Quality gates de CI en verde.
+- [x] PR creada sin conflictos.
+- [x] Quality gates de CI en verde.

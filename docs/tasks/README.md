@@ -4,32 +4,32 @@ Este documento es la fuente única de verdad para el roadmap funcional y las tar
 
 ## Hito 1 — Desbloqueo y Calidad Base
 
-Estado: **en progreso**. La base Next.js, los quality gates, la cobertura, la estructura de widgets y la persistencia local están implementadas. Queda cerrar acciones visuales pendientes y extraer primitives UI reutilizables.
+Estado: **completado**. La base Next.js, los quality gates, la cobertura, la estructura de widgets, la persistencia local y las acciones visuales pendientes están implementadas.
 
-- [TASK-101: Configuración de entorno y PR de Google Calendar](./epic-1-launch/TASK-101.md) — pendiente de completar la entrega de la rama y la PR.
-- [x] [TASK-102: Normalización de acciones visuales pendientes en Dashboard](./epic-1-launch/TASK-102.md) — completada.
+- [x] [TASK-101: Configuración de entorno y PR de Google Calendar](./COMPLETED/epic-1-launch/TASK-101.md) — completada.
+- [x] [TASK-102: Normalización de acciones visuales pendientes en Dashboard](./COMPLETED/epic-1-launch/TASK-102.md) — completada.
 
 ## Hito 2 — Integraciones Personales / Gmail
 
 Estado: **completado**. Google Calendar está integrado con OAuth, normalización, rangos de agenda, renovación de tokens y validación de performance. Gmail dispone de normalización y endpoint de lectura.
 
-- [x] [TASK-201: Normalizador de correos de Gmail a tipos internos](./epic-2-integrations/TASK-201.md) — completada.
-- [x] [TASK-202: Endpoint de lectura de mensajes de Gmail](./epic-2-integrations/TASK-202.md) — completada.
-- [x] [TASK-203: Integración visual de Gmail y cabecera del dashboard](./epic-2-integrations/TASK-203.md) — completada.
+- [x] [TASK-201: Normalizador de correos de Gmail a tipos internos](./COMPLETED/epic-2-integrations/TASK-201.md) — completada.
+- [x] [TASK-202: Endpoint de lectura de mensajes de Gmail](./COMPLETED/epic-2-integrations/TASK-202.md) — completada.
+- [x] [TASK-203: Integración visual de Gmail y cabecera del dashboard](./COMPLETED/epic-2-integrations/TASK-203.md) — completada.
 
 ## Hito 3 — Sistema de Tareas Avanzado
 
-Estado: **pendiente**. La aplicación dispone actualmente de tareas locales básicas; faltan el modelo extendido, la persistencia avanzada, los filtros y las prioridades.
+Estado: **completado**. El modelo extendido, la persistencia avanzada, los filtros y las prioridades están implementados.
 
-- [x] [TASK-301: Modelo Zod y parser seguro de tareas](./epic-3-tasks/TASK-301.md) — completada.
-- [x] [TASK-302: Hook de persistencia local y operaciones de tareas](./epic-3-tasks/TASK-302.md) — completada.
-- [x] [TASK-303: Widget de tareas con prioridades y filtros de accesibilidad](./epic-3-tasks/TASK-303.md) — completada.
+- [x] [TASK-301: Modelo Zod y parser seguro de tareas](./COMPLETED/epic-3-tasks/TASK-301.md) — completada.
+- [x] [TASK-302: Hook de persistencia local y operaciones de tareas](./COMPLETED/epic-3-tasks/TASK-302.md) — completada.
+- [x] [TASK-303: Widget de tareas con prioridades y filtros de accesibilidad](./COMPLETED/epic-3-tasks/TASK-303.md) — completada.
 
 ## Hito 4 — Rendimiento y Sincronización
 
 Estado: **completado**.
 
-- [x] [TASK-401: Sincronización en background con polling adaptativo](./epic-4-performance/TASK-401.md) — completada.
+- [x] [TASK-401: Sincronización en background con polling adaptativo](./COMPLETED/epic-4-performance/TASK-401.md) — completada.
 
 ## Hito 5 — Experiencia y Entorno Doméstico
 
@@ -42,6 +42,11 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 - [ ] `TASK-601`: Sistema Centralizado de Notificaciones Toast `🔴 Pendiente`
 - [ ] `TASK-602`: Notificaciones del Navegador (Web Notifications API) `🔴 Pendiente`
 - [ ] `TASK-603`: Hook e Indicador de Estado de Conexión (Online/Offline) `🔴 Pendiente`
+
+## Épica 7: Resilience & Global Error Handling
+- [ ] `TASK-701`: React Error Boundary Global con Fallback UI `🔴 Pendiente`
+- [ ] `TASK-702`: Contexto y Banner Superior de Errores Globales `🔴 Pendiente`
+- [ ] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🔴 Pendiente`
 
 ## Estado transversal de calidad
 
