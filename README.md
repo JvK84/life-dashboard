@@ -13,7 +13,7 @@ Panel personal de una sola página para centralizar agenda, correo, tareas, ener
 ## Requisitos
 
 - Node.js 20 o superior.
-- Un proyecto en Google Cloud con Google Calendar API habilitada.
+- Un proyecto en Google Cloud con Google Calendar API y Gmail API habilitadas.
 - Credenciales OAuth 2.0 de tipo aplicación web.
 
 ## Arranque local
@@ -49,7 +49,7 @@ Después fuerza la recarga del navegador (`Cmd+Shift+R` en macOS). No es necesar
 
 1. Abre [Google Cloud Console](https://console.cloud.google.com/).
 2. Crea un proyecto nuevo o selecciona uno existente.
-3. En **APIs y servicios → Biblioteca**, busca **Google Calendar API** y pulsa **Habilitar**.
+3. En **APIs y servicios → Biblioteca**, busca y habilita **Google Calendar API** y **Gmail API**.
 
 ### 2. Configurar la pantalla de consentimiento OAuth
 
@@ -62,9 +62,12 @@ Después fuerza la recarga del navegador (`Cmd+Shift+R` en macOS). No es necesar
    ```text
    https://www.googleapis.com/auth/calendar.events.readonly
    https://www.googleapis.com/auth/calendar.calendarlist.readonly
+   https://www.googleapis.com/auth/gmail.readonly
    ```
 
-La aplicación no solicita permisos para crear, editar ni borrar eventos.
+La aplicación solo solicita permisos de lectura. No solicita permisos para crear, editar ni borrar eventos ni correos.
+
+Si ya habías conectado Google antes de activar Gmail, vuelve a pulsar **Conectar Google** en el dashboard para renovar el consentimiento y conceder el permiso `gmail.readonly`.
 
 ### 3. Crear las credenciales OAuth
 

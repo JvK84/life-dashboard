@@ -2,10 +2,12 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Dashboard } from "./dashboard";
 
-const mockDashboardFetch = (calendarResponse: () => Response) =>
+const mockDashboardFetch = (calendarResponse: () => Response, gmailResponse: () => Response = () => new Response(JSON.stringify({ messages: [] }), { status: 200 })) =>
   vi.fn((input: RequestInfo | URL) =>
     String(input).startsWith("https://api.open-meteo.com")
       ? Promise.resolve(new Response(JSON.stringify({ current_weather: { temperature: 19, weathercode: 0 } }), { status: 200 }))
+      : String(input).includes("/api/integrations/google/gmail/messages")
+        ? Promise.resolve(gmailResponse())
       : Promise.resolve(calendarResponse()),
   );
 
@@ -47,6 +49,65 @@ describe("Dashboard", () => {
     expect(screen.queryByText("Daily de producto")).not.toBeInTheDocument();
     expect(screen.getByText("1.5 h")).toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Conectar Google Calendar" })).not.toBeInTheDocument();
+  });
+
+  it("renders the unread Gmail messages returned by the API", async () => {
+    // Arrange
+    vi.stubGlobal("fetch", mockDashboardFetch(
+      () => new Response(null, { status: 401 }),
+      () => new Response(JSON.stringify({ messages: [{ id: "mail-1", sender: "Ada Lovelace", subject: "Reunión semanal", snippet: "Nos vemos mañana", date: "2026-10-24T10:00:00.000Z", unread: true }] }), { status: 200 }),
+    ));
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByText("Reunión semanal")).toBeInTheDocument());
+    expect(screen.getByText("Ada Lovelace")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Abrir Gmail" })).toHaveAttribute("href", "https://mail.google.com");
+  });
+
+  it("shows a Gmail error and reconnect action when the API rejects the request", async () => {
+    // Arrange
+    vi.stubGlobal("fetch", mockDashboardFetch(
+      () => new Response(null, { status: 401 }),
+      () => new Response(null, { status: 500 }),
+    ));
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("No se pudieron cargar los mensajes de Gmail."));
+    expect(screen.getByRole("link", { name: "Conectar Google" })).toHaveAttribute("href", "/api/integrations/google/calendar/connect");
+  });
+
+  it("explains when Google authorization is required for Gmail", async () => {
+    // Arrange
+    vi.stubGlobal("fetch", mockDashboardFetch(
+      () => new Response(null, { status: 401 }),
+      () => new Response(null, { status: 401 }),
+    ));
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Conecta Google para consultar tu correo."));
+  });
+
+  it("shows an empty inbox when Gmail returns no message collection", async () => {
+    // Arrange
+    vi.stubGlobal("fetch", mockDashboardFetch(
+      () => new Response(null, { status: 401 }),
+      () => new Response(JSON.stringify({}), { status: 200 }),
+    ));
+
+    // Act
+    render(<Dashboard />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByText("Inbox limpia")).toBeInTheDocument());
   });
 
   it("reloads the selected agenda range", async () => {
@@ -177,11 +238,12 @@ describe("Dashboard", () => {
     expect(screen.getByText("0 de 3 completadas.")).toBeInTheDocument();
   });
 
-  it("can archive the inbox", () => {
+  it("can archive the inbox", async () => {
     // Arrange
     render(<Dashboard />);
 
     // Act
+    await waitFor(() => expect(screen.getByRole("button", { name: "Archivar correos" })).not.toBeDisabled());
     fireEvent.click(screen.getByRole("button", { name: "Archivar correos" }));
 
     // Assert
@@ -190,7 +252,7 @@ describe("Dashboard", () => {
     expect(screen.queryByText("3 correos esperan.")).not.toBeInTheDocument();
   });
 
-  it("exposes accessible names, states, links, and keyboard focus", () => {
+  it("exposes accessible names, states, links, and keyboard focus", async () => {
     // Arrange
     render(<Dashboard />);
     const searchButton = screen.getByRole("button", { name: "Buscar" });
@@ -203,8 +265,7 @@ describe("Dashboard", () => {
     expect(searchButton).toHaveFocus();
     expect(searchButton).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByRole("button", { name: "Más opciones de agenda (próximamente)" })).toHaveAttribute("aria-disabled", "true");
-    expect(screen.getByRole("button", { name: "Abrir Gmail" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Abrir Gmail" })).toHaveAttribute("aria-disabled", "true");
+    await waitFor(() => expect(screen.getByRole("link", { name: "Conectar Google" })).toHaveAttribute("href", "/api/integrations/google/calendar/connect"));
     expect(screen.getByRole("button", { name: "Añadir atajo (próximamente)" })).toBeDisabled();
     expect(firstTask).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("link", { name: "Conectar Google Calendar" })).toHaveAttribute("href", "/api/integrations/google/calendar/connect");
