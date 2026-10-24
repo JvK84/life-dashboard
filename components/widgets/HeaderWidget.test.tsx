@@ -39,4 +39,16 @@ describe("HeaderWidget", () => {
     // Assert
     await waitFor(() => expect(screen.getByLabelText("Clima: Sin datos")).toBeInTheDocument());
   });
+
+  it("ignores corrupted cached weather", async () => {
+    // Arrange
+    localStorage.setItem("life-dashboard.weather", "{invalid json");
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
+
+    // Act
+    render(<HeaderWidget />);
+
+    // Assert
+    await waitFor(() => expect(screen.getByLabelText("Clima: Sin datos")).toBeInTheDocument());
+  });
 });
