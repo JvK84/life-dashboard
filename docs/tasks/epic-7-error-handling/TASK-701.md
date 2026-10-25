@@ -1,7 +1,7 @@
 # TASK-701: React Error Boundary Global con Fallback UI
 
 - **Épica:** Épica 7 - Resilience & Error Handling
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Alta / Crítica
 - **Archivos principales a crear/modificar:**
   - `src/components/error/ErrorBoundary.tsx`
@@ -38,7 +38,16 @@ Implementar un componente `ErrorBoundary` de React a nivel de raíz (`RootLayout
 
 ## ✅ Checklist de Verificación (Definition of Done)
 - [ ] Componente `ErrorBoundary` implementado con TypeScript estricto.
-- [ ] Fallback UI limpio y accesible.
-- [ ] Tests unitarios superados al 100% de cobertura.
-- [ ] `npm run lint` y `npm run build` en verde.
-- [ ] Estado actualizado a `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+- [x] Componente `ErrorBoundary` implementado con TypeScript estricto.
+- [x] Fallback UI limpio y accesible.
+- [x] Tests unitarios superados al 100% de cobertura.
+- [x] `npm run lint` y `npm run build` en verde.
+- [x] Estado actualizado a `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+
+## 🧭 Validación manual
+
+1. Ejecutar `npm run dev` y abrir el dashboard en escritorio y móvil.
+2. Confirmar que los cinco widgets del Bento Grid se muestran normalmente.
+3. Provocar un error de renderizado en un widget durante desarrollo y confirmar que aparece el fallback accesible con el botón `Reintentar`.
+4. Confirmar que los widgets adyacentes siguen visibles y operativos.
+5. Pulsar `Reintentar` y verificar que el widget vuelve a intentar renderizarse.
