@@ -1,6 +1,6 @@
 # [TASK-502] Motor de atajos de teclado globales
 
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Epic:** Epic 5 — Experiencia y Entorno Doméstico
 - **Prioridad:** Baja
 
@@ -28,5 +28,5 @@ Añadir soporte para accesos rápidos por teclado globales (ej. `N` nueva tarea,
 ---
 
 ## ✅ Criterio de Aceptación
-- [ ] Ignora eventos dentro de campos de texto.
-- [ ] Tests de simulación de teclado pasando con cobertura 100%.
+- [x] Ignora eventos dentro de campos de texto.
+- [x] Tests de simulación de teclado pasando con cobertura 100%.

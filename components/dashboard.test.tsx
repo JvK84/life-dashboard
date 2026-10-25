@@ -341,4 +341,28 @@ describe("Dashboard", () => {
     await waitFor(() => expect(document.documentElement).not.toHaveClass("dark"));
     expect(screen.getByRole("button", { name: "Activar modo oscuro" })).toBeInTheDocument();
   });
+
+  it("supports keyboard shortcuts and an accessible help dialog", async () => {
+    // Arrange
+    render(<Dashboard />);
+    const newTaskInput = screen.getByRole("textbox", { name: "Nueva tarea" });
+
+    // Act
+    fireEvent.keyDown(window, { key: "n" });
+    fireEvent.keyDown(window, { key: "?" });
+
+    // Assert
+    expect(newTaskInput).toHaveFocus();
+    const dialog = screen.getByRole("dialog", { name: "Atajos de teclado" });
+    expect(dialog).toBeInTheDocument();
+
+    // Act
+    fireEvent.click(dialog);
+
+    // Act
+    fireEvent.keyDown(window, { key: "Escape" });
+
+    // Assert
+    await waitFor(() => expect(screen.queryByRole("dialog", { name: "Atajos de teclado" })).not.toBeInTheDocument());
+  });
 });
