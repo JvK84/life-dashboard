@@ -36,14 +36,14 @@ Estado: **completado**.
 Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibles; quedan las mejoras de contexto doméstico y los atajos globales.
 
 - [TASK-501: Widget de Clima con Open-Meteo API](./epic-5-features/TASK-501.md) — completada.
-- [TASK-502: Motor de atajos de teclado globales](./epic-5-features/TASK-502.md) — pendiente.
+- [x] [TASK-502: Motor de atajos de teclado globales](./epic-5-features/TASK-502.md) — completada.
 
-## Épica 6: Real-time Sync & Notifications
+## Hito 6: Real-time Sync & Notifications
 - [ ] `TASK-601`: Sistema Centralizado de Notificaciones Toast `🔴 Pendiente`
 - [ ] `TASK-602`: Notificaciones del Navegador (Web Notifications API) `🔴 Pendiente`
 - [ ] `TASK-603`: Hook e Indicador de Estado de Conexión (Online/Offline) `🔴 Pendiente`
 
-## Épica 7: Resilience & Global Error Handling
+## Hito 7: Resilience & Global Error Handling
 - [ ] `TASK-701`: React Error Boundary Global con Fallback UI `🔴 Pendiente`
 - [ ] `TASK-702`: Contexto y Banner Superior de Errores Globales `🔴 Pendiente`
 - [ ] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🔴 Pendiente`
