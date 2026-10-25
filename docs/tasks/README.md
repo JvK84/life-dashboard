@@ -44,7 +44,7 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 - [ ] `TASK-603`: Hook e Indicador de Estado de Conexión (Online/Offline) `🔴 Pendiente`
 
 ## Hito 7: Resilience & Global Error Handling
-- [ ] `TASK-701`: React Error Boundary Global con Fallback UI `🔴 Pendiente`
+- [x] `TASK-701`: React Error Boundary Global con Fallback UI `🟢 Completada`
 - [ ] `TASK-702`: Contexto y Banner Superior de Errores Globales `🔴 Pendiente`
 - [ ] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🔴 Pendiente`
 

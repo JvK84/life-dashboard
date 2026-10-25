@@ -195,3 +195,33 @@ Una entrega se considera completa únicamente cuando:
 4. La documentación y el roadmap están actualizados.
 5. La rama temática y el commit siguen las convenciones del proyecto.
 6. La Pull Request describe el cambio, las pruebas ejecutadas, los riesgos y cualquier configuración adicional necesaria.
+
+## 8. Plantilla rápida para lanzar tareas
+
+La siguiente plantilla se puede registrar en el editor de snippets con el prefijo `!agentask` para iniciar tareas del backlog con el protocolo completo:
+
+```json
+{
+  "Plantilla Agente Tarea": {
+    "prefix": "!agentask",
+    "body": [
+      "Lee las directivas de `AGENTS.md` y la arquitectura en `docs/`.",
+      "",
+      "Por favor, ejecuta de forma 100% autónoma la siguiente tarea de nuestro backlog:",
+      "",
+      "TASK: $1",
+      "",
+      "Flujo obligatorio e implícito a seguir:",
+      "1. **Sincronización y Aislamiento:** Actualiza desde `main` y crea la rama temática correspondiente (`feat/...`).",
+      "2. **Implementación y Testing (TDD/AAA):** Desarrolla la lógica asegurando el 100% de cobertura en Vitest + RTL.",
+      "3. **Documentación:** Actualiza la documentación técnica en la carpeta `docs/` si el cambio lo requiere.",
+      "4. **Guía de Pruebas Manuales:** Añade o actualiza los pasos de validación manual en el documento de la tarea para que pueda ser probada fácilmente desde navegador o móvil.",
+      "5. **Quality Gates:** Pasa estrictamente `npm run test:coverage`, `npm run lint` y `npm run build`.",
+      "6. **Cierre y PR:** Actualiza los estados en el archivo markdown de la tarea y en el índice global, haz commit atómico, push y abre la Pull Request con `gh pr create` hacia `main`.",
+      "",
+      "Inicia la ejecución e infórmame de cada paso hasta abrir la PR."
+    ],
+    "description": "Plantilla rápida para lanzar tareas al agente de IA con el protocolo completo"
+  }
+}
+```
