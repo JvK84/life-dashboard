@@ -48,6 +48,12 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 - [x] `TASK-702`: Contexto y Banner Superior de Errores Globales `🟢 Completada`
 - [x] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🟢 Completada`
 
+## Hito 8 — Documentación y adopción
+
+Estado: **completado**. El manual de usuario cubre las funcionalidades disponibles, sus estados y las limitaciones conocidas.
+
+- [x] [TASK-801: Manual de usuario por funcionalidades](./epic-8-documentation/TASK-801.md) — completada.
+
 ## Estado transversal de calidad
 
 - Cobertura exigida en CI para `app/` y `components/`: 100% de líneas, funciones y statements; 95% de branches.

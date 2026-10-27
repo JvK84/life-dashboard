@@ -2,6 +2,8 @@
 
 Panel personal de una sola página para centralizar agenda, correo, tareas, energía y accesos rápidos.
 
+Consulta el [manual de usuario](docs/USER_GUIDE.md) para aprender a utilizar cada sección y resolver los problemas habituales.
+
 ## Estado actual
 
 - Dashboard responsive con Bento Grid, tema claro/oscuro y persistencia local de tareas y preferencias.
