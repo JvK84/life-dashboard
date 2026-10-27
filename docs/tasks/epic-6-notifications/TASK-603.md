@@ -1,7 +1,7 @@
 # TASK-603: Hook e Indicador de Estado de Conexión (Online/Offline)
 
 - **Épica:** Épica 6 - Sync & Notifications
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Media
 - **Archivos principales a crear/modificar:**
   - `src/hooks/useNetworkStatus.ts`
@@ -35,7 +35,13 @@ Crear un hook `useNetworkStatus` que escuche los eventos `online` y `offline` de
 ---
 
 ## ✅ Checklist de Verificación (Definition of Done)
-- [ ] Custom hook `useNetworkStatus` e indicador implementados.
-- [ ] Tests al 100% de cobertura.
-- [ ] `npm run lint` y `npm run build` en verde.
-- [ ] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+- [x] Custom hook `useNetworkStatus` e indicador implementados.
+- [x] Tests al 100% de cobertura.
+- [x] `npm run lint` y `npm run build` en verde.
+- [x] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+
+## 🧭 Prueba manual
+
+1. Abrir el dashboard en un navegador.
+2. En DevTools, activar el modo Offline en la pestaña de red y confirmar que aparece el indicador “Sin conexión” en la cabecera.
+3. Desactivar el modo Offline y confirmar que aparece el toast “Conexión restablecida”.

@@ -41,7 +41,7 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 ## Hito 6: Real-time Sync & Notifications
 - [x] `TASK-601`: Sistema Centralizado de Notificaciones Toast `🟢 Completada`
 - [x] `TASK-602`: Notificaciones del Navegador (Web Notifications API) `🟢 Completada`
-- [ ] `TASK-603`: Hook e Indicador de Estado de Conexión (Online/Offline) `🔴 Pendiente`
+- [x] `TASK-603`: Hook e Indicador de Estado de Conexión (Online/Offline) `🟢 Completada`
 
 ## Hito 7: Resilience & Global Error Handling
 - [x] `TASK-701`: React Error Boundary Global con Fallback UI `🟢 Completada`
