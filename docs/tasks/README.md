@@ -46,7 +46,7 @@ Estado: **pendiente**. El dashboard tiene tema claro/oscuro y controles accesibl
 ## Hito 7: Resilience & Global Error Handling
 - [x] `TASK-701`: React Error Boundary Global con Fallback UI `🟢 Completada`
 - [x] `TASK-702`: Contexto y Banner Superior de Errores Globales `🟢 Completada`
-- [ ] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🔴 Pendiente`
+- [x] `TASK-703`: Middleware e Interceptor de Excepciones Asíncronas `🟢 Completada`
 
 ## Estado transversal de calidad
 

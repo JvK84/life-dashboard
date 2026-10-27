@@ -1,6 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render as rtlRender, screen, waitFor } from "@testing-library/react";
+import type { ReactElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { HeaderWidget } from "./HeaderWidget";
+import { ErrorProvider } from "@/src/context/ErrorContext";
+
+const render = (ui: ReactElement) => rtlRender(<ErrorProvider>{ui}</ErrorProvider>);
 
 describe("HeaderWidget", () => {
   beforeEach(() => vi.unstubAllGlobals());

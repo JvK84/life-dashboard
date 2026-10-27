@@ -1,7 +1,7 @@
 # TASK-703: Middleware e Interceptor de Excepciones Asíncronas
 
 - **Épica:** Épica 7 - Resilience & Error Handling
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Media
 - **Archivos principales a crear/modificar:**
   - `src/services/apiClient.ts`
@@ -31,10 +31,20 @@ Crear un cliente o wrapper HTTP centralizado (`apiClient`) que intercepte todas 
   2. Reintenta la petición hasta `maxRetries` ante errores 503 o timeouts.
   3. Dispara la notificación del banner de error cuando se agotan los reintentos.
 
+## 🧭 Validación manual
+
+1. Ejecutar `npm run dev`.
+2. Abrir el dashboard y comprobar que Calendar, Gmail y clima cargan normalmente.
+3. Simular una respuesta 5xx o desconectar la red desde las herramientas del navegador.
+4. Verificar que la petición se reintenta y que, al agotarse los intentos, aparece el banner superior con el error normalizado.
+5. Comprobar que el banner se puede cerrar manualmente y con `Escape`.
+
+La validación automatizada se ejecuta con `npm run test:coverage`, `npm run lint`, `npm exec -- tsc --noEmit` y `npm run build`.
+
 ---
 
 ## ✅ Checklist de Verificación (Definition of Done)
-- [ ] `apiClient` con lógica de reintentos e interceptor completado.
-- [ ] Cobertura al 100% en pruebas de servicios.
-- [ ] `npm run lint` y `npm run build` sin errores.
-- [ ] Marcado como `🟢 Completado` en `docs/tasks/README.md`.
+- [x] `apiClient` con lógica de reintentos e interceptor completado.
+- [x] Cobertura al 100% en pruebas de servicios.
+- [x] `npm run lint` y `npm run build` sin errores.
+- [x] Marcado como `🟢 Completado` en `docs/tasks/README.md`.

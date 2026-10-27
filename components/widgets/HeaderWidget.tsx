@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Clock3, CloudSun } from "lucide-react";
 import { fetchCurrentWeather, type WeatherSnapshot } from "@/src/lib/integrations/weather/openMeteo";
+import { fetchWithRetry } from "@/src/services/apiClient";
+import { useGlobalError } from "@/src/context/ErrorContext";
 
 const WEATHER_CACHE_KEY = "life-dashboard.weather";
 const neutralWeather: WeatherSnapshot = { temperature: 0, weatherCode: -1, condition: "Sin datos", icon: "🌡️" };
@@ -20,13 +22,14 @@ function readCachedWeather(): WeatherSnapshot | null {
 }
 
 export function HeaderWidget() {
+  const { showError } = useGlobalError();
   const [weather, setWeather] = useState<WeatherSnapshot>(neutralWeather);
 
   useEffect(() => {
     const cached = readCachedWeather();
     if (cached) setWeather(cached);
     let isCurrent = true;
-    fetchCurrentWeather()
+    fetchCurrentWeather((url, options) => fetchWithRetry(url, options, 2, (error) => showError(error.message, { code: error.code })))
       .then((currentWeather) => {
         if (!isCurrent) return;
         setWeather(currentWeather);
@@ -36,7 +39,7 @@ export function HeaderWidget() {
     return () => {
       isCurrent = false;
     };
-  }, []);
+  }, [showError]);
 
   const weatherLabel = weather.weatherCode === -1 ? weather.condition : `${weather.temperature}º · ${weather.condition}`;
 

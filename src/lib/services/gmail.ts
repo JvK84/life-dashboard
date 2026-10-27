@@ -1,6 +1,7 @@
 import type { InboxMessage } from "@/src/types/inbox";
 import type { GoogleCalendarToken } from "@/src/types/google-calendar";
 import { normalizeGmailMessage } from "@/src/lib/integrations/gmail/normalizer";
+import { fetchWithRetry } from "@/src/services/apiClient";
 
 export const GOOGLE_GMAIL_SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
 const GMAIL_MESSAGES_ENDPOINT = "https://gmail.googleapis.com/gmail/v1/users/me/messages";
@@ -26,8 +27,7 @@ export async function listUnreadGmailMessages(
   listUrl.searchParams.set("includeSpamTrash", "false");
 
   const headers = { Authorization: `Bearer ${token.accessToken}` };
-  const listResponse = await fetchImpl(listUrl, { headers });
-  if (!listResponse.ok) throw new Error(`Gmail message list request failed with ${listResponse.status}`);
+  const listResponse = await fetchWithRetry(listUrl, { headers }, 2, undefined, fetchImpl);
 
   const payload = (await listResponse.json()) as unknown;
   const references = isRecord(payload) && Array.isArray(payload.messages) ? payload.messages : [];
@@ -38,8 +38,7 @@ export async function listUnreadGmailMessages(
 
       const messageUrl = new URL(`${GMAIL_MESSAGES_ENDPOINT}/${encodeURIComponent(id)}`);
       messageUrl.searchParams.set("format", "full");
-      const messageResponse = await fetchImpl(messageUrl, { headers });
-      if (!messageResponse.ok) throw new Error(`Gmail message request failed with ${messageResponse.status}`);
+      const messageResponse = await fetchWithRetry(messageUrl, { headers }, 2, undefined, fetchImpl);
       return normalizeGmailMessage(await messageResponse.json());
     }),
   );
