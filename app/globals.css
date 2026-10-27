@@ -32,3 +32,8 @@ button:focus-visible, a:focus-visible, input:focus-visible {
 }
 
 ::selection { background: #d7f36b; color: #111113; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(0.75rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
