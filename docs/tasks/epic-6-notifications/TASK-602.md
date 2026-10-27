@@ -1,7 +1,7 @@
 # TASK-602: Notificaciones del Navegador (Web Notifications API)
 
 - **Épica:** Épica 6 - Sync & Notifications
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Media
 - **Archivos principales a crear/modificar:**
   - `src/services/notifications/browserNotifications.ts`
@@ -33,7 +33,14 @@ Implementar una capa de servicio abastracta que solicite permisos para la Web No
 ---
 
 ## ✅ Checklist de Verificación (Definition of Done)
-- [ ] Abstracción de Notificaciones Web nativas lista.
-- [ ] Cobertura de tests al 100%.
-- [ ] `npm run lint` y `npm run build` sin errores.
-- [ ] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+- [x] Abstracción de Notificaciones Web nativas lista.
+- [x] Cobertura de tests al 100% en el servicio y sus caminos de permiso, visibilidad y compatibilidad.
+- [x] `npm run lint` y `npm run build` sin errores.
+- [x] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+
+## 🧭 Prueba manual
+
+1. Abrir el dashboard en un navegador compatible con Web Notifications.
+2. Desde la consola del navegador, ejecutar `Notification.requestPermission()` y aceptar el permiso.
+3. Cambiar a otra pestaña y disparar `sendBrowserNotification("Prueba", { body: "Notificación de prueba" })` desde el flujo que integre el servicio.
+4. Confirmar que la notificación aparece solo con permiso concedido y con el dashboard en segundo plano.
