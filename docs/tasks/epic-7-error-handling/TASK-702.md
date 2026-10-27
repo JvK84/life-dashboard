@@ -1,7 +1,7 @@
 # TASK-702: Contexto y Banner Superior de Errores Globales
 
 - **Épica:** Épica 7 - Resilience & Error Handling
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Alta
 - **Archivos principales a crear/modificar:**
   - `src/context/ErrorContext.tsx`
@@ -39,8 +39,8 @@ Crear un contexto global (`ErrorContext`) y un componente visual (`ErrorBanner`)
 ---
 
 ## ✅ Checklist de Verificación (Definition of Done)
-- [ ] Contexto y hook `useGlobalError` implementados.
-- [ ] Componente `ErrorBanner` fijado en la parte superior y responsive.
-- [ ] Cobertura de tests al 100%.
-- [ ] `npm run lint` y `npm run build` sin errores.
-- [ ] Marcado como `🟢 Completado` en el backlog global.
+- [x] Contexto y hook `useGlobalError` implementados.
+- [x] Componente `ErrorBanner` fijado en la parte superior y responsive.
+- [x] Cobertura de tests al 100%.
+- [x] `npm run lint` y `npm run build` sin errores.
+- [x] Marcado como `🟢 Completado` en el backlog global.
