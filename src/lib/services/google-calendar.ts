@@ -1,6 +1,7 @@
 import type { GoogleCalendarEvent, GoogleCalendarToken } from "@/src/types/google-calendar";
 import type { CalendarRangeWindow } from "@/src/lib/utils/calendar-range";
 import { GOOGLE_GMAIL_SCOPE } from "@/src/lib/services/gmail";
+import { fetchWithRetry } from "@/src/services/apiClient";
 
 export const GOOGLE_CALENDAR_SCOPES = [
   "https://www.googleapis.com/auth/calendar.events.readonly",
@@ -89,13 +90,11 @@ async function requestToken(
   config: GoogleOAuthConfig,
   fetchImpl: typeof fetch,
 ): Promise<GoogleTokenResponse> {
-  const response = await fetchImpl(GOOGLE_TOKEN_ENDPOINT, {
+  const response = await fetchWithRetry(GOOGLE_TOKEN_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body,
-  });
-
-  if (!response.ok) throw new Error(`Google token request failed with ${response.status}`);
+  }, 2, undefined, fetchImpl);
   return (await response.json()) as GoogleTokenResponse;
 }
 
@@ -170,10 +169,9 @@ export async function listGoogleCalendars(
   token: GoogleCalendarToken,
   fetchImpl: typeof fetch = fetch,
 ): Promise<GoogleCalendarReference[]> {
-  const response = await fetchImpl(GOOGLE_CALENDAR_LIST_ENDPOINT, {
+  const response = await fetchWithRetry(GOOGLE_CALENDAR_LIST_ENDPOINT, {
     headers: { Authorization: `Bearer ${token.accessToken}` },
-  });
-  if (!response.ok) throw new Error(`Google Calendar list request failed with ${response.status}`);
+  }, 2, undefined, fetchImpl);
 
   const data = (await response.json()) as GoogleCalendarListResponse;
   return (data.items ?? [])
@@ -207,10 +205,9 @@ async function listCalendarEvents(
   url.searchParams.set("maxResults", String(options.maxResults ?? 10));
   if (options.timeMax) url.searchParams.set("timeMax", options.timeMax);
 
-  const response = await fetchImpl(url, {
+  const response = await fetchWithRetry(url, {
     headers: { Authorization: `Bearer ${token.accessToken}` },
-  });
-  if (!response.ok) throw new Error(`Google Calendar request failed with ${response.status}`);
+  }, 2, undefined, fetchImpl);
 
   const data = (await response.json()) as GoogleEventResponse;
   return (data.items ?? [])

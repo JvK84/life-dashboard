@@ -15,10 +15,13 @@ import { HeaderWidget } from "@/components/widgets/HeaderWidget";
 import { useKeyboardShortcuts } from "@/src/hooks/useKeyboardShortcuts";
 import { useTasks } from "@/src/hooks/useTasks";
 import { ErrorBoundary } from "@/src/components/error/ErrorBoundary";
+import { ApiClientError, fetchWithRetry } from "@/src/services/apiClient";
+import { useGlobalError } from "@/src/context/ErrorContext";
 const THEME_STORAGE_KEY = "life-dashboard.theme";
 type Theme = "light" | "dark";
 
 export function Dashboard() {
+  const { showError } = useGlobalError();
   const { tasks, activeTasks, completedTasks, archivedTasks, addTask, updateTask, toggleArchiveTask } = useTasks({ initialTasks });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,13 +39,8 @@ export function Dashboard() {
   useEffect(() => {
     let isCurrent = true;
 
-    fetch(`/api/integrations/google/calendar/events?range=${agendaRange}`)
+    fetchWithRetry(`/api/integrations/google/calendar/events?range=${agendaRange}`, {}, 2, (error) => showError(error.message, { code: error.code }))
       .then((response) => {
-        if (!response.ok) {
-          if (isCurrent) setIsCalendarConnected(false);
-          return null;
-        }
-
         if (isCurrent) setIsCalendarConnected(true);
         return response.json();
       })
@@ -54,21 +52,13 @@ export function Dashboard() {
     return () => {
       isCurrent = false;
     };
-  }, [agendaRange]);
+  }, [agendaRange, showError]);
 
   useEffect(() => {
     let isCurrent = true;
 
-    fetch("/api/integrations/google/gmail/messages")
+    fetchWithRetry("/api/integrations/google/gmail/messages", {}, 2, (error) => showError(error.message, { code: error.code }))
       .then(async (response) => {
-        if (!response.ok) {
-          if (isCurrent) {
-            setIsInboxConnected(false);
-            setInboxError(response.status === 401 ? "Conecta Google para consultar tu correo." : "No se pudieron cargar los mensajes de Gmail.");
-          }
-          return null;
-        }
-
         const payload = await response.json() as { messages?: InboxMessage[] };
         if (isCurrent) {
           setIsInboxConnected(true);
@@ -77,10 +67,10 @@ export function Dashboard() {
         }
         return payload;
       })
-      .catch(() => {
+      .catch((error: unknown) => {
         if (isCurrent) {
           setIsInboxConnected(false);
-          setInboxError("No se pudieron cargar los mensajes de Gmail.");
+          setInboxError(error instanceof ApiClientError && error.status === 401 ? "Conecta Google para consultar tu correo." : "No se pudieron cargar los mensajes de Gmail.");
         }
       })
       .finally(() => {
@@ -90,7 +80,7 @@ export function Dashboard() {
     return () => {
       isCurrent = false;
     };
-  }, []);
+  }, [showError]);
 
   useEffect(() => {
     const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);

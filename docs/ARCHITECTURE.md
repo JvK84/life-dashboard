@@ -29,6 +29,8 @@ La implementación actual utiliza `src/lib` para servicios y utilidades, y `src/
 
 Los datos mock y las constantes reutilizables viven fuera de los componentes, en módulos como `src/data/dashboard.ts`, para evitar recreaciones durante el render y facilitar las pruebas.
 
+Las peticiones HTTP pasan por `src/services/apiClient.ts`. `fetchWithRetry` normaliza los errores como `AppError`, reintenta respuestas 5xx, fallos de red y timeouts, y permite notificar el error final al `ErrorContext`. Los servicios de Google lo utilizan en servidor con el `fetch` inyectable para conservar la capacidad de prueba; los widgets cliente conectan el callback con el banner global.
+
 ## Patrones acordados
 
 - **Separación de widgets:** cada widget encapsula una responsabilidad visual y de interacción concreta.

@@ -1,6 +1,10 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render as rtlRender, screen, waitFor } from "@testing-library/react";
+import type { ReactElement } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Dashboard } from "./dashboard";
+import { ErrorProvider } from "@/src/context/ErrorContext";
+
+const render = (ui: ReactElement) => rtlRender(<ErrorProvider>{ui}</ErrorProvider>);
 
 const mockDashboardFetch = (calendarResponse: () => Response, gmailResponse: () => Response = () => new Response(JSON.stringify({ messages: [] }), { status: 200 })) =>
   vi.fn((input: RequestInfo | URL) =>
@@ -120,7 +124,7 @@ describe("Dashboard", () => {
     fireEvent.click(screen.getByRole("button", { name: "Semana" }));
 
     // Assert
-    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith("/api/integrations/google/calendar/events?range=week"));
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledWith("/api/integrations/google/calendar/events?range=week", expect.objectContaining({ signal: expect.any(AbortSignal) })));
     expect(screen.getByRole("button", { name: "Semana" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("button", { name: "Día" })).toHaveAttribute("aria-pressed", "false");
   });
