@@ -1,7 +1,7 @@
 # TASK-601: Sistema Centralizado de Notificaciones Toast
 
 - **Épica:** Épica 6 - Sync & Notifications
-- **Estado:** 🔴 Pendiente
+- **Estado:** 🟢 Completada
 - **Prioridad:** Alta
 - **Archivos principales a crear/modificar:**
   - `src/context/ToastContext.tsx`
@@ -38,8 +38,8 @@ Crear un sistema global de alertas tipo *Toast* (éxito, error, advertencia, inf
 ---
 
 ## ✅ Checklist de Verificación (Definition of Done)
-- [ ] Contexto y Provider de Toast implementados con TypeScript estricto.
-- [ ] Atributos `aria-live` validados para accesibilidad.
-- [ ] Tests al 100% de cobertura.
-- [ ] `npm run lint` y `npm run build` sin errores.
-- [ ] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
+- [x] Contexto y Provider de Toast implementados con TypeScript estricto.
+- [x] Atributos `aria-live` validados para accesibilidad.
+- [x] Tests al 100% de cobertura.
+- [x] `npm run lint` y `npm run build` sin errores.
+- [x] Marcado como `🟢 Completado` en este archivo y en `docs/tasks/README.md`.
